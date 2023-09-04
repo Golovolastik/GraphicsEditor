@@ -1,20 +1,37 @@
+import figures.*;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-    private Parent createContent() {
-        return new StackPane(new Text("Hello World"));
-    }
-
     @Override
-    public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(createContent(), 300, 300));
-        stage.show();
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Figures");
+
+        StackPane root = new StackPane();
+        Canvas canvas = new Canvas(400, 400);
+        root.getChildren().add(canvas);
+
+        Scene scene = new Scene(root, 400, 400);
+        primaryStage.setScene(scene);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.RED);
+
+        FigureList figureList = new FigureList();
+        figureList.addFigure(new Circle(100, 100, 50));
+        figureList.addFigure(new Ellipse(200, 200, 80, 40));
+        figureList.addFigure(new Rectangle(250, 200, 100, 50));
+        figureList.addFigure(new Parallelogram(50, 300, 100, 50, 30));
+        figureList.addFigure(new Line(50, 200, 100, 50));
+
+        figureList.drawAll(gc);
+
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
