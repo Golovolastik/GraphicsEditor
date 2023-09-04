@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -14,7 +15,10 @@ public class Main extends Application {
 
         StackPane root = new StackPane();
         Canvas canvas = new Canvas(400, 400);
-        root.getChildren().add(canvas);
+        DrawingController controller = new DrawingController(canvas);
+        // Создаем панель с кнопками
+        HBox buttonPanel = controller.createButtonPanel();
+        root.getChildren().addAll(canvas, buttonPanel);
 
         Scene scene = new Scene(root, 400, 400);
         primaryStage.setScene(scene);
