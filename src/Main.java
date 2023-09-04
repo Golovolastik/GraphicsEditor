@@ -13,13 +13,13 @@ public class Main extends Application {
         primaryStage.setTitle("Figures");
 
         StackPane root = new StackPane();
-        Canvas canvas = new Canvas(400, 400);
+        Canvas canvas = new Canvas(800, 600);
         DrawingController controller = new DrawingController(canvas);
         // Создаем панель с кнопками
         HBox buttonPanel = controller.createButtonPanel();
         root.getChildren().addAll(canvas, buttonPanel);
 
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
