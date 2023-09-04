@@ -1,5 +1,4 @@
 import figures.Figure;
-import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +10,7 @@ public class FigureList {
         figures.add(figure);
     }
 
-    public void drawAll(GraphicsContext gc) {
-        for (Figure figure : figures) {
-            figure.draw(gc);
-        }
+    public List<Figure> getFigures() {
+        return this.figures;
     }
 }

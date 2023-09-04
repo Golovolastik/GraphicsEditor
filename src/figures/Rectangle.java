@@ -2,7 +2,7 @@ package figures;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class Rectangle extends Figure implements Drawable {
+public class Rectangle extends Figure  {
     private double x;
     private double y;
     private double width;
@@ -16,6 +16,8 @@ public class Rectangle extends Figure implements Drawable {
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.fillRect(getX(), getY(), width, height);
+        gc.setLineWidth(getLineWidth());
+        gc.setStroke(getStrokeColor());
+        gc.strokeRect(getX(), getY(), width, height);
     }
 }

@@ -2,7 +2,7 @@ package figures;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class Ellipse extends Figure implements Drawable {
+public class Ellipse extends Figure {
     private double radiusX;
     private double radiusY;
 
@@ -14,6 +14,8 @@ public class Ellipse extends Figure implements Drawable {
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.fillOval(getX() - radiusX, getY() - radiusY, 2 * radiusX, 2 * radiusY);
+        gc.setLineWidth(getLineWidth());
+        gc.setStroke(getStrokeColor());
+        gc.strokeOval(getX() - radiusX, getY() - radiusY, 2 * radiusX, 2 * radiusY);
     }
 }

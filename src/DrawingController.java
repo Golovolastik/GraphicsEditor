@@ -1,8 +1,8 @@
+import figures.Circle;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 
 public class DrawingController {
     private Canvas canvas;
@@ -18,8 +18,8 @@ public class DrawingController {
     }
 
     public void drawCircle() {
-        gc.setFill(Color.BLUE); // Задайте цвет для круга
-        gc.fillOval(100, 100, 50, 50); // Рисуем круг
+        Circle circle = new Circle(150, 150, 50);
+        circle.draw(gc);
     }
 
     public HBox createButtonPanel() {

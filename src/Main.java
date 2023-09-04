@@ -5,7 +5,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -24,7 +23,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.RED);
 
         FigureList figureList = new FigureList();
         figureList.addFigure(new Circle(100, 100, 50));
@@ -33,7 +31,10 @@ public class Main extends Application {
         figureList.addFigure(new Parallelogram(50, 300, 100, 50, 30));
         figureList.addFigure(new Line(50, 200, 100, 50));
 
-        figureList.drawAll(gc);
+        for (Figure figure: figureList.getFigures()) {
+            //figure.setColor(Color.AQUA);
+            figure.draw(gc);
+        }
 
         primaryStage.show();
     }
