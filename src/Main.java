@@ -1,10 +1,10 @@
 import figures.*;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -12,11 +12,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Figures");
 
-        StackPane root = new StackPane();
+        Group root = new Group();
         Canvas canvas = new Canvas(800, 600);
         DrawingController controller = new DrawingController(canvas);
         // Создаем панель с кнопками
-        HBox buttonPanel = controller.createButtonPanel();
+        VBox buttonPanel = controller.createButtonPanel();
         root.getChildren().addAll(canvas, buttonPanel);
 
         Scene scene = new Scene(root, 800, 600);
@@ -25,11 +25,11 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         FigureList figureList = new FigureList();
-        figureList.addFigure(new Circle(100, 100, 50));
-        figureList.addFigure(new Ellipse(200, 200, 80, 40));
-        figureList.addFigure(new Rectangle(250, 200, 100, 50));
-        figureList.addFigure(new Parallelogram(50, 300, 100, 50, 30));
-        figureList.addFigure(new Line(50, 200, 100, 50));
+        figureList.addFigure(new Circle(200, 100, 50));
+        figureList.addFigure(new Ellipse(400, 200, 80, 40));
+        figureList.addFigure(new Rectangle(350, 450, 100, 50));
+        figureList.addFigure(new Parallelogram(150, 350, 100, 50, 30));
+        figureList.addFigure(new Line(150, 250, 400, 50));
 
         for (Figure figure: figureList.getFigures()) {
             //figure.setColor(Color.AQUA);
