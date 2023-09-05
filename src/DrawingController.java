@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class DrawingController {
     private Canvas canvas;
@@ -20,6 +21,11 @@ public class DrawingController {
 
     public void clearCanvas() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    private void drawFigure() {
+        DialogWindow window = new DialogWindow();
+        Optional<String> result = window.showAndWait();
     }
 
     public void drawCircle() {
@@ -59,7 +65,7 @@ public class DrawingController {
         buttonArray.add(rectangleButton);
         // ellipse
         Button ellipseButton = createFigureButton(new javafx.scene.shape.Ellipse(15, 10));
-        ellipseButton.setOnAction(e -> drawCircle()); // need method
+        ellipseButton.setOnAction(e -> drawFigure()); // need method
         buttonArray.add(ellipseButton);
         // line
         Button lineButton = createFigureButton(new javafx.scene.shape.Line(15, 15, 1, 1));
