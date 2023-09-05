@@ -1,6 +1,7 @@
 package figures;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Rectangle extends Figure  {
     private double x;
@@ -17,6 +18,7 @@ public class Rectangle extends Figure  {
     @Override
     public void draw(GraphicsContext gc) {
         gc.setLineWidth(getLineWidth());
+        gc.setFill(Color.BLACK);
         gc.setStroke(getStrokeColor());
         gc.strokeRect(getX(), getY(), width, height);
     }

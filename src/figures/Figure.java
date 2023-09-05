@@ -6,14 +6,12 @@ import javafx.scene.paint.Color;
 public abstract class Figure {
     private double x;
     private double y;
-    private Color color;
     private Color strokeColor;
     private double lineWidth;
 
     public Figure(double x, double y) {
         this.x = x;
         this.y = y;
-        this.color = Color.WHITE;
         this.strokeColor = Color.BLACK; // Значение по умолчанию для цвета обводки
         this.lineWidth = 2.0;
     }
@@ -33,8 +31,6 @@ public abstract class Figure {
     public void setY(double y) {
         this.y = y;
     }
-    public Color getColor() { return color; }
-    public void setColor(Color color) { this.color = color; }
     public Color getStrokeColor() { return strokeColor; }
     public void setStrokeColor(Color color) { this.strokeColor = color; }
     public double getLineWidth() { return this.lineWidth; }

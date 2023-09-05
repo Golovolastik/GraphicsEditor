@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -32,7 +33,7 @@ public class Main extends Application {
         figureList.addFigure(new Line(150, 250, 400, 50));
 
         for (Figure figure: figureList.getFigures()) {
-            //figure.setColor(Color.AQUA);
+            figure.setStrokeColor(Color.RED);
             figure.draw(gc);
         }
 
