@@ -15,6 +15,10 @@ public class Rectangle extends Figure  {
         this.height = 50;
     }
 
+    public Rectangle() {
+        this(0, 0);
+    }
+
     @Override
     public void draw(GraphicsContext gc) {
         gc.setLineWidth(getLineWidth());
