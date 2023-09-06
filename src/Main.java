@@ -26,10 +26,10 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         FigureList figureList = new FigureList();
-        figureList.addFigure(new Circle(200, 100, 50));
-        figureList.addFigure(new Ellipse(400, 200, 80, 40));
-        figureList.addFigure(new Rectangle(350, 450, 100, 50));
-        figureList.addFigure(new Parallelogram(150, 350, 100, 50, 30));
+        figureList.addFigure(new Circle(200, 100));
+        figureList.addFigure(new Ellipse(400, 200));
+        figureList.addFigure(new Rectangle(350, 450));
+        figureList.addFigure(new Parallelogram(150, 350));
         figureList.addFigure(new Line(150, 250, 400, 50));
 
         for (Figure figure: figureList.getFigures()) {

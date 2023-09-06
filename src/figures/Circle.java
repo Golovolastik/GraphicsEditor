@@ -9,6 +9,9 @@ public class Circle extends Figure {
         super(x, y);
         this.radius = 50;
     }
+    public Circle() {
+        this(0, 0);
+    }
 
     public double getRadius() {
         return radius;

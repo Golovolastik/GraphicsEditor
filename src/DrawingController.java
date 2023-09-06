@@ -1,4 +1,8 @@
 import figures.Circle;
+import figures.Ellipse;
+import figures.Figure;
+import figures.Rectangle;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,6 +17,8 @@ public class DrawingController {
     private Canvas canvas;
     private GraphicsContext gc;
     private Group root;
+    private boolean drawMode = false;
+    private Figure currentFigure;
 
     public DrawingController(Canvas canvas) {
         this.canvas = canvas;
@@ -23,13 +29,13 @@ public class DrawingController {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    private void drawFigure() {
+    private void enterFigurePoints() {
         DialogWindow window = new DialogWindow();
         Optional<String> result = window.showAndWait();
     }
 
     public void drawCircle() {
-        Circle circle = new Circle(150, 150, 50);
+        Circle circle = new Circle(150, 150);
         circle.draw(gc);
     }
 
@@ -43,10 +49,51 @@ public class DrawingController {
         return drawButton;
     }
 
+//    public void configureButton(Button button, Figure figure) {
+//        button.setOnMousePressed(event -> {
+//            if (!this.drawMode) {
+//                if (event.isShiftDown()) {
+//                    enterFigurePoints();
+//                } else {
+//                    this.drawMode = true;
+//                    canvas.setCursor(Cursor.CROSSHAIR);
+//                }
+//            }
+//        });
+//        handleDrawing(figure);
+//    }
+
+    public void configureButton(Button button, Figure figure) {
+        button.setOnMousePressed(event -> {
+            if (!drawMode) {
+                if (event.isShiftDown()) {
+                    enterFigurePoints();
+                } else {
+                    drawMode = true; // Включаем режим рисования
+                    canvas.setCursor(Cursor.CROSSHAIR);
+                    currentFigure = figure; // Устанавливаем текущую фигуру
+                }
+            }
+        });
+        handleDrawing(currentFigure);
+    }
+
+    private void handleDrawing(Figure figure) {
+        canvas.setOnMousePressed(event -> {
+            if (drawMode && currentFigure != null) {
+                currentFigure.setX(event.getX());
+                currentFigure.setY(event.getY());
+                currentFigure.draw(gc); // Рисуем текущую фигуру
+                canvas.setCursor(Cursor.DEFAULT);
+                drawMode = false; // Выключаем режим рисования
+            }
+        });
+    }
+
+
     public VBox createButtonPanel() {
-        VBox buttonPanel = new VBox(10); // 10 - расстояние между кнопками
-        //buttonPanel.setBackground(Color.GRAY);
-        buttonPanel.setStyle("-fx-padding: 10px;"); // Добавляем отступы
+        VBox buttonPanel = new VBox(10);
+        buttonPanel.setStyle("-fx-padding: 10px;");
 
         ArrayList<Button> buttonArray = new ArrayList<>();
 
@@ -59,14 +106,15 @@ public class DrawingController {
         Button circleButton = createFigureButton(new javafx.scene.shape.Circle(10));
         circleButton.setOnAction(e -> drawCircle());
         buttonArray.add(circleButton);
-        // rectangle
-        Button rectangleButton = createFigureButton(new javafx.scene.shape.Rectangle(25, 17));
-        rectangleButton.setOnAction(e -> drawCircle()); // need method
-        buttonArray.add(rectangleButton);
         // ellipse
         Button ellipseButton = createFigureButton(new javafx.scene.shape.Ellipse(15, 10));
-        ellipseButton.setOnAction(e -> drawFigure()); // need method
+        configureButton(ellipseButton, new Ellipse());
         buttonArray.add(ellipseButton);
+        // rectangle
+        Button rectangleButton = createFigureButton(new javafx.scene.shape.Rectangle(25, 17));
+        configureButton(rectangleButton, new Rectangle());
+        buttonArray.add(rectangleButton);
+
         // line
         Button lineButton = createFigureButton(new javafx.scene.shape.Line(15, 15, 1, 1));
         lineButton.setOnAction(e -> drawCircle()); // need method

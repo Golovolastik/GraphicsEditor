@@ -12,6 +12,10 @@ public class Ellipse extends Figure {
         this.radiusY = 40;
     }
 
+    public Ellipse() {
+        this(0, 0);
+    }
+
     @Override
     public void draw(GraphicsContext gc) {
         gc.setLineWidth(getLineWidth());

@@ -16,6 +16,10 @@ public abstract class Figure {
         this.lineWidth = 2.0;
     }
 
+    public Figure() {
+        this(0, 0);
+    }
+
     public double getX() {
         return x;
     }
