@@ -7,11 +7,11 @@ public class Parallelogram extends Figure {
     private double height;
     private double angle; // Угол наклона параллелограмма (в градусах)
 
-    public Parallelogram(double x, double y, double width, double height, double angle) {
+    public Parallelogram(double x, double y) {
         super(x, y);
-        this.width = width;
-        this.height = height;
-        this.angle = angle;
+        this.width = 100;
+        this.height = 50;
+        this.angle = 30;
     }
 
     @Override

@@ -5,9 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 public class Circle extends Figure {
     private double radius;
 
-    public Circle(double x, double y, double radius) {
+    public Circle(double x, double y) {
         super(x, y);
-        this.radius = radius;
+        this.radius = 50;
     }
 
     public double getRadius() {

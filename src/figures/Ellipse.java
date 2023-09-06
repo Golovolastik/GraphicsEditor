@@ -6,10 +6,10 @@ public class Ellipse extends Figure {
     private double radiusX;
     private double radiusY;
 
-    public Ellipse(double centerX, double centerY, double radiusX, double radiusY) {
+    public Ellipse(double centerX, double centerY) {
         super(centerX, centerY);
-        this.radiusX = radiusX;
-        this.radiusY = radiusY;
+        this.radiusX = 80;
+        this.radiusY = 40;
     }
 
     @Override
