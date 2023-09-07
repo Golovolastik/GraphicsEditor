@@ -13,6 +13,12 @@ public class Parallelogram extends Figure {
         this.height = 50;
         this.angle = 30;
     }
+    public Parallelogram() {
+        super(0, 0);
+        this.width = 100;
+        this.height = 50;
+        this.angle = 30;
+    }
 
     @Override
     public void draw(GraphicsContext gc) {

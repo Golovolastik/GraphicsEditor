@@ -12,6 +12,19 @@ public class Line extends Figure {
         this.endY = endY;
     }
 
+    public Line() {
+        super(0, 0);
+        this.endX = 20;
+        this.endY = 20;
+    }
+
+    public void setEndX(double endX) {
+        this.endX = endX;
+    }
+
+    public void setEndY(double endY) {
+        this.endY = endY;
+    }
     @Override
     public void draw(GraphicsContext gc) {
         gc.setLineWidth(getLineWidth());
