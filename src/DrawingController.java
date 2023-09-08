@@ -40,7 +40,8 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            figure.draw(gc);
+            Painter painter = new Painter(this.gc);
+            painter.draw(figure);
         }
     }
 
@@ -160,7 +161,9 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                currentFigure.draw(gc);
+                Painter painter = new Painter(this.gc);
+                painter.draw(currentFigure);
+                //currentFigure.draw(gc);
                 canvas.setCursor(Cursor.DEFAULT);
                 drawMode = false;
             }
@@ -173,7 +176,9 @@ public class DrawingController {
             if (lineDrawingMode && currentFigure instanceof Line) {
                 ((Line) currentFigure).setEndX(event.getX());
                 ((Line) currentFigure).setEndY(event.getY());
-                currentFigure.draw(gc);
+                Painter painter = new Painter(this.gc);
+                painter.draw(currentFigure);
+                //currentFigure.draw(gc);
                 canvas.setCursor(Cursor.DEFAULT);
                 drawMode = false;
                 lineDrawingMode = false; // Выключаем режим рисования линии после завершения

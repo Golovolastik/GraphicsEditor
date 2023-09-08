@@ -17,9 +17,28 @@ public class Ellipse extends Figure {
     }
 
     @Override
+    public void init(){
+        System.out.println("Hello");
+    }
+    @Override
     public void draw(GraphicsContext gc) {
         gc.setLineWidth(getLineWidth());
         gc.setStroke(getStrokeColor());
         gc.strokeOval(getX() - radiusX, getY() - radiusY, 2 * radiusX, 2 * radiusY);
+    }
+
+    @Override
+    public double[] getXPoints() {
+        return new double[0];
+    }
+
+    @Override
+    public double[] getYPoints() {
+        return new double[0];
+    }
+
+    @Override
+    public int getNumberOfPoints() {
+        return 0;
     }
 }

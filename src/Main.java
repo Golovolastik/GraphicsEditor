@@ -37,6 +37,10 @@ public class Main extends Application {
             figure.draw(gc);
         }
 
+        Rectangle test = new Rectangle(456, 345);
+        Painter painter = new Painter(gc);
+        painter.draw(test);
+
         primaryStage.show();
     }
 
