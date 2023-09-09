@@ -1,6 +1,5 @@
 import figures.*;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -14,7 +13,6 @@ import java.util.Optional;
 public class DrawingController {
     private Canvas canvas;
     private GraphicsContext gc;
-    private Group root;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
@@ -40,7 +38,8 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            figure.draw(gc);
+            Painter painter = new Painter(this.gc);
+            painter.draw(figure);
         }
     }
 
@@ -160,7 +159,9 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                currentFigure.draw(gc);
+                Painter painter = new Painter(this.gc);
+                painter.draw(currentFigure);
+                //currentFigure.draw(gc);
                 canvas.setCursor(Cursor.DEFAULT);
                 drawMode = false;
             }
@@ -173,7 +174,9 @@ public class DrawingController {
             if (lineDrawingMode && currentFigure instanceof Line) {
                 ((Line) currentFigure).setEndX(event.getX());
                 ((Line) currentFigure).setEndY(event.getY());
-                currentFigure.draw(gc);
+                Painter painter = new Painter(this.gc);
+                painter.draw(currentFigure);
+                //currentFigure.draw(gc);
                 canvas.setCursor(Cursor.DEFAULT);
                 drawMode = false;
                 lineDrawingMode = false; // Выключаем режим рисования линии после завершения
@@ -211,8 +214,8 @@ public class DrawingController {
         buttonArray.add(lineButton);
         // parallelogram
         javafx.scene.shape.Polygon parallelogram = new javafx.scene.shape.Polygon();
-        parallelogram.getPoints().addAll(3.0, 2.0,
-                23.0, 2.0,
+        parallelogram.getPoints().addAll(5.0, 2.0,
+                25.0, 2.0,
                 20.0, 18.0,
                 0.0, 18.0);
         Button parallelogramButton = createFigureButton(parallelogram);
