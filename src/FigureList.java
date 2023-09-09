@@ -8,8 +8,19 @@ public class FigureList {
 
     public void addFigure(Figure figure) {
         figures.add(figure);
+
     }
     public List<Figure> getFigures() {
         return this.figures;
+    }
+    public void clear() {
+        this.figures.clear();
+    }
+    public void printFigures() {
+        System.out.println("Start of List");
+        for (Figure figure: this.figures) {
+            System.out.println(figure);
+        }
+        System.out.println("End of List");
     }
 }
