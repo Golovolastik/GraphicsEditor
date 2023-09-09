@@ -16,10 +16,12 @@ public class DrawingController {
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
+    private FigureList figureList;
 
     public DrawingController(Canvas canvas) {
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
+        this.figureList = new FigureList();
     }
 
     private void clearCanvas() {
@@ -39,6 +41,7 @@ public class DrawingController {
                 ((Line) figure).setEndY(xy[3]);
             }
             Painter painter = new Painter(this.gc);
+            this.figureList.addFigure(figure);
             painter.draw(figure);
         }
     }
@@ -160,8 +163,8 @@ public class DrawingController {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
                 Painter painter = new Painter(this.gc);
+                this.figureList.addFigure(currentFigure);
                 painter.draw(currentFigure);
-                //currentFigure.draw(gc);
                 canvas.setCursor(Cursor.DEFAULT);
                 drawMode = false;
             }
@@ -176,7 +179,7 @@ public class DrawingController {
                 ((Line) currentFigure).setEndY(event.getY());
                 Painter painter = new Painter(this.gc);
                 painter.draw(currentFigure);
-                //currentFigure.draw(gc);
+                this.figureList.addFigure(currentFigure);
                 canvas.setCursor(Cursor.DEFAULT);
                 drawMode = false;
                 lineDrawingMode = false; // Выключаем режим рисования линии после завершения
