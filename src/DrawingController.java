@@ -216,8 +216,8 @@ public class DrawingController {
         buttonArray.add(lineButton);
         // parallelogram
         javafx.scene.shape.Polygon parallelogram = new javafx.scene.shape.Polygon();
-        parallelogram.getPoints().addAll(3.0, 2.0,
-                23.0, 2.0,
+        parallelogram.getPoints().addAll(5.0, 2.0,
+                25.0, 2.0,
                 20.0, 18.0,
                 0.0, 18.0);
         Button parallelogramButton = createFigureButton(parallelogram);

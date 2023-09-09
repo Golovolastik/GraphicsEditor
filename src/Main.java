@@ -26,7 +26,10 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         FigureList figureList = new FigureList();
-        figureList.addFigure(new Circle(200, 100));
+        Circle circle = new Circle(400, 300);
+        circle.setRadius(250);
+
+        //figureList.addFigure(circle);
         figureList.addFigure(new Ellipse(400, 200));
         figureList.addFigure(new Rectangle(350, 450));
         figureList.addFigure(new Parallelogram(150, 350));
@@ -40,6 +43,7 @@ public class Main extends Application {
         Rectangle test = new Rectangle(456, 345);
         Painter painter = new Painter(gc);
         painter.draw(test);
+        painter.draw(circle);
 
         primaryStage.show();
     }

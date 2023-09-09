@@ -14,13 +14,11 @@ public class Rectangle extends Figure  {
         this.width = 100;
         this.height = 50;
         this.points = new PointsSet();
-        init();
     }
 
     public Rectangle() {
         this(0, 0);
         this.points = new PointsSet();
-        init();
     }
     @Override
     public void init() {

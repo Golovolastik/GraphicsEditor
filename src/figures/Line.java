@@ -13,7 +13,7 @@ public class Line extends Figure {
         this.endX = endX;
         this.endY = endY;
         this.points = new PointsSet();
-        init();
+        //init();
     }
 
     public Line() {
@@ -21,7 +21,7 @@ public class Line extends Figure {
         this.endX = 20;
         this.endY = 20;
         this.points = new PointsSet();
-        init();
+        //init();
     }
 
     public void setEndX(double endX) {

@@ -5,20 +5,35 @@ import javafx.scene.canvas.GraphicsContext;
 public class Ellipse extends Figure {
     private double radiusX;
     private double radiusY;
+    private PointsSet points;
 
     public Ellipse(double centerX, double centerY) {
         super(centerX, centerY);
         this.radiusX = 80;
         this.radiusY = 40;
+        this.points = new PointsSet();
+
     }
 
     public Ellipse() {
         this(0, 0);
+        this.points = new PointsSet();
     }
 
     @Override
     public void init(){
-        System.out.println("Hello");
+        int numberOfPoints = 360;
+        this.points.setNumber_of_points(numberOfPoints);
+        double theta = 0;
+        double[] xAxis = new double[numberOfPoints];
+        double[] yAxis = new double[numberOfPoints];
+        for (int i=0; i<numberOfPoints; i++) {
+            xAxis[i] = this.x + this.radiusX*Math.cos(theta);
+            yAxis[i] = this.y + this.radiusY*Math.sin(theta);
+            theta += 2*Math.PI / numberOfPoints;
+        }
+        this.points.setX_axis(xAxis);
+        this.points.setY_axis(yAxis);
     }
     @Override
     public void draw(GraphicsContext gc) {
@@ -27,18 +42,15 @@ public class Ellipse extends Figure {
         gc.strokeOval(getX() - radiusX, getY() - radiusY, 2 * radiusX, 2 * radiusY);
     }
 
-    @Override
     public double[] getXPoints() {
-        return new double[0];
+        return this.points.getX_axis();
     }
 
-    @Override
     public double[] getYPoints() {
-        return new double[0];
+        return this.points.getY_axis();
     }
 
-    @Override
     public int getNumberOfPoints() {
-        return 0;
+        return this.points.getNumber_of_points();
     }
 }
