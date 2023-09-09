@@ -1,9 +1,5 @@
 package figures;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
-
 public class Rectangle extends Figure  {
     private double width;
     private double height;
@@ -38,13 +34,5 @@ public class Rectangle extends Figure  {
 
     public int getNumberOfPoints() {
         return this.points.getNumber_of_points();
-    }
-
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setLineWidth(getLineWidth());
-        gc.setFill(Color.BLACK);
-        gc.setStroke(getStrokeColor());
-        gc.strokeRect(getX(), getY(), width, height);
     }
 }

@@ -1,7 +1,5 @@
 package figures;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Ellipse extends Figure {
     private double radiusX;
     private double radiusY;
@@ -34,12 +32,6 @@ public class Ellipse extends Figure {
         }
         this.points.setX_axis(xAxis);
         this.points.setY_axis(yAxis);
-    }
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setLineWidth(getLineWidth());
-        gc.setStroke(getStrokeColor());
-        gc.strokeOval(getX() - radiusX, getY() - radiusY, 2 * radiusX, 2 * radiusY);
     }
 
     public double[] getXPoints() {

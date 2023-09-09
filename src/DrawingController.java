@@ -1,6 +1,5 @@
 import figures.*;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -14,7 +13,6 @@ import java.util.Optional;
 public class DrawingController {
     private Canvas canvas;
     private GraphicsContext gc;
-    private Group root;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;

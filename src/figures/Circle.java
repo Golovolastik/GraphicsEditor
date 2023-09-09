@@ -1,7 +1,5 @@
 package figures;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Circle extends Figure {
     private double radius;
     private PointsSet points;
@@ -52,11 +50,4 @@ public class Circle extends Figure {
     public int getNumberOfPoints() {
         return this.points.getNumber_of_points();
     }
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setLineWidth(getLineWidth());
-        gc.setStroke(getStrokeColor());
-        gc.strokeOval(getX() - radius, getY() - radius, 2 * radius, 2 * radius);    }
-
-
 }

@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -27,23 +26,15 @@ public class Main extends Application {
 
         FigureList figureList = new FigureList();
         Circle circle = new Circle(400, 300);
-        circle.setRadius(250);
-
-        //figureList.addFigure(circle);
+        circle.setRadius(150);
+        figureList.addFigure(circle);
         figureList.addFigure(new Ellipse(400, 200));
         figureList.addFigure(new Rectangle(350, 450));
         figureList.addFigure(new Parallelogram(150, 350));
         figureList.addFigure(new Line(150, 250, 400, 50));
 
-        for (Figure figure: figureList.getFigures()) {
-            figure.setStrokeColor(Color.RED);
-            figure.draw(gc);
-        }
-
-        Rectangle test = new Rectangle(456, 345);
         Painter painter = new Painter(gc);
-        painter.draw(test);
-        painter.draw(circle);
+        painter.drawAll(figureList);
 
         primaryStage.show();
     }
