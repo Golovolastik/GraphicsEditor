@@ -37,7 +37,11 @@ public class Parallelogram extends Figure {
         double y4 = y1 + height;
         this.points.setX_axis(new double[]{x1, x2, x3, x4});
         this.points.setY_axis(new double[]{y1, y2, y3, y4});
+        this.points.initPoints();
 
+    }
+    public Double[] getPoints() {
+        return this.points.getPoints();
     }
 
     public double[] getXPoints() {

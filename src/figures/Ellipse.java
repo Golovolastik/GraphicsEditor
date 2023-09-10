@@ -32,6 +32,10 @@ public class Ellipse extends Figure {
         }
         this.points.setX_axis(xAxis);
         this.points.setY_axis(yAxis);
+        this.points.initPoints();
+    }
+    public Double[] getPoints() {
+        return this.points.getPoints();
     }
 
     public double[] getXPoints() {

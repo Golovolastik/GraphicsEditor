@@ -21,9 +21,11 @@ public class Rectangle extends Figure  {
         this.points.setNumber_of_points(4);
         this.points.setX_axis(new double[]{this.x, this.x, this.x+width, this.x+width});
         this.points.setY_axis(new double[]{this.y, this.y+height, this.y+height, this.y});
-
+        this.points.initPoints();
     }
-
+    public Double[] getPoints() {
+        return this.points.getPoints();
+    }
     public double[] getXPoints() {
         return this.points.getX_axis();
     }

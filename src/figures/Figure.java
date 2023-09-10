@@ -15,6 +15,7 @@ public abstract class Figure {
     }
 
     public abstract void init();
+    public abstract Double[] getPoints();
     public double getX() {
         return x;
     }

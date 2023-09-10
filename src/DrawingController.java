@@ -1,9 +1,9 @@
 import figures.*;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -11,21 +11,28 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class DrawingController {
+    private Pane pane;
     private Canvas canvas;
-    private GraphicsContext gc;
+    //private GraphicsContext gc;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
     private FigureList figureList;
 
-    public DrawingController(Canvas canvas) {
+    public DrawingController(Pane pane) {
+        this.pane = pane;
         this.canvas = canvas;
-        this.gc = canvas.getGraphicsContext2D();
+        //this.gc = canvas.getGraphicsContext2D();
         this.figureList = new FigureList();
     }
 
-    private void clearCanvas() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    private void clearBoard() {
+        this.pane.getChildren().clear();
+        this.figureList.clear();
+        this.drawMode = false;
+        this.lineDrawingMode = false;
+        this.pane.setCursor(Cursor.DEFAULT);
+        this.pane.setPrefSize(800, 600);
     }
 
     private void enterFigurePoints(Figure figure) {
@@ -40,7 +47,7 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            Painter painter = new Painter(this.gc);
+            Painter painter = new Painter(this.pane);
             this.figureList.addFigure(figure);
             painter.draw(figure);
         }
@@ -145,7 +152,7 @@ public class DrawingController {
                     enterFigurePoints(figure);
                 } else {
                     drawMode = true; // Включаем режим рисования
-                    canvas.setCursor(Cursor.CROSSHAIR);
+                    pane.setCursor(Cursor.CROSSHAIR);
                     currentFigure = figure; // Устанавливаем текущую фигуру
                 }
             }
@@ -154,7 +161,7 @@ public class DrawingController {
     }
 
     private void handleDrawing() {
-        canvas.setOnMousePressed(event -> {
+        pane.setOnMousePressed(event -> {
             if (drawMode && currentFigure instanceof Line) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
@@ -162,10 +169,10 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                Painter painter = new Painter(this.gc);
+                Painter painter = new Painter(this.pane);
                 this.figureList.addFigure(currentFigure);
                 painter.draw(currentFigure);
-                canvas.setCursor(Cursor.DEFAULT);
+                pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
             }
         });
@@ -173,14 +180,14 @@ public class DrawingController {
     }
 
     private void lineDrawing() {
-        canvas.setOnMouseReleased(event -> {
+        pane.setOnMouseReleased(event -> {
             if (lineDrawingMode && currentFigure instanceof Line) {
                 ((Line) currentFigure).setEndX(event.getX());
                 ((Line) currentFigure).setEndY(event.getY());
-                Painter painter = new Painter(this.gc);
+                Painter painter = new Painter(this.pane);
                 painter.draw(currentFigure);
                 this.figureList.addFigure(currentFigure);
-                canvas.setCursor(Cursor.DEFAULT);
+                pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
                 lineDrawingMode = false; // Выключаем режим рисования линии после завершения
             }
@@ -196,7 +203,7 @@ public class DrawingController {
         // Добавляем кнопку для очистки холста
         Button clearButton = new Button("Clear");
         clearButton.setPrefSize(50, 35);
-        clearButton.setOnAction(e -> clearCanvas());
+        clearButton.setOnAction(e -> clearBoard());
 
         // circle
         Button circleButton = createFigureButton(new javafx.scene.shape.Circle(10));
@@ -223,7 +230,6 @@ public class DrawingController {
                 0.0, 18.0);
         Button parallelogramButton = createFigureButton(parallelogram);
         configureButton(parallelogramButton, new Parallelogram());
-        //parallelogramButton.setOnAction(e -> drawCircle()); // need method
         buttonArray.add(parallelogramButton);
         // Размещаем кнопки на панели
         buttonPanel.getChildren().addAll(clearButton);

@@ -43,6 +43,10 @@ public class Line extends Figure {
         this.points.setNumber_of_points(2);
         this.points.setX_axis(new double[]{getX(), getEndX()});
         this.points.setY_axis(new double[]{getY(), getEndY()});
+        this.points.initPoints();
+    }
+    public Double[] getPoints() {
+        return this.points.getPoints();
     }
 
     public double[] getXPoints() {
