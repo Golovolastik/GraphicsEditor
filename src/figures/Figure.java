@@ -31,7 +31,6 @@ public abstract class Figure {
     public void setY(double y) {
         this.y = y;
     }
-
     public abstract double[] getXPoints();
 
     public abstract double[] getYPoints();

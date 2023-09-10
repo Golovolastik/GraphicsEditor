@@ -1,6 +1,5 @@
 import figures.*;
 import javafx.scene.Cursor;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -12,8 +11,6 @@ import java.util.Optional;
 
 public class DrawingController {
     private Pane pane;
-    private Canvas canvas;
-    //private GraphicsContext gc;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
@@ -21,8 +18,6 @@ public class DrawingController {
 
     public DrawingController(Pane pane) {
         this.pane = pane;
-        this.canvas = canvas;
-        //this.gc = canvas.getGraphicsContext2D();
         this.figureList = new FigureList();
     }
 

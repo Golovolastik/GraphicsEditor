@@ -13,7 +13,6 @@ public class Parallelogram extends Figure {
         this.height = 50;
         this.angle = 30;
         this.points = new PointsSet();
-        //init();
     }
     public Parallelogram() {
         super(0, 0);
