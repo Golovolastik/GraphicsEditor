@@ -1,5 +1,5 @@
 import figures.Figure;
-import figures.PopupPanel;
+import utility.PopupPanel;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -9,9 +9,11 @@ public class Painter {
     private Pane pane;
     private double lineWidth = 2;
     private Color borderColor = Color.BLACK;
+    private PopupPanel popupPanel;
 
     public Painter(Pane pane) {
         this.pane = pane;
+        this.popupPanel = new PopupPanel(this.pane);
     }
     public void draw(Figure figure) {
         figure.init();
@@ -31,7 +33,7 @@ public class Painter {
         fig.setStroke(this.borderColor);
         fig.setStrokeWidth(this.lineWidth);
         fig.setOnMouseClicked(e -> {
-            PopupPanel panel = new PopupPanel(this.pane, e);
+            this.popupPanel.showPopup(e, fig);
         });
 
         return fig;

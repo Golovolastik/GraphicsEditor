@@ -15,9 +15,11 @@ public class DrawingController {
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
     private FigureList figureList;
+    private Painter painter;
 
-    public DrawingController(Pane pane) {
+    public DrawingController(Pane pane, Painter painter) {
         this.pane = pane;
+        this.painter = painter;
         this.figureList = new FigureList();
     }
 
@@ -42,9 +44,9 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            Painter painter = new Painter(this.pane);
+            //Painter painter = new Painter(this.pane);
             this.figureList.addFigure(figure);
-            painter.draw(figure);
+            this.painter.draw(figure);
         }
     }
 
@@ -164,9 +166,8 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                Painter painter = new Painter(this.pane);
                 this.figureList.addFigure(currentFigure);
-                painter.draw(currentFigure);
+                this.painter.draw(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
             }
@@ -179,8 +180,7 @@ public class DrawingController {
             if (lineDrawingMode && currentFigure instanceof Line) {
                 ((Line) currentFigure).setEndX(event.getX());
                 ((Line) currentFigure).setEndY(event.getY());
-                Painter painter = new Painter(this.pane);
-                painter.draw(currentFigure);
+                this.painter.draw(currentFigure);
                 this.figureList.addFigure(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
