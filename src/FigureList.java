@@ -13,6 +13,9 @@ public class FigureList {
     public List<Figure> getFigures() {
         return this.figures;
     }
+    public void deleteFigure(Figure figure){
+        this.figures.remove(figure);
+    }
     public void clear() {
         this.figures.clear();
     }

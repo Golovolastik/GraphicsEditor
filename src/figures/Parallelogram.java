@@ -1,5 +1,7 @@
 package figures;
 
+import javafx.scene.shape.Polygon;
+
 public class Parallelogram extends Figure {
     private double width;
     private double height;
@@ -20,6 +22,11 @@ public class Parallelogram extends Figure {
         this.height = 50;
         this.angle = 30;
         this.points = new PointsSet();
+    }
+
+    @Override
+    public Polygon getFigure() {
+        return this.points.getPolygon();
     }
 
     @Override

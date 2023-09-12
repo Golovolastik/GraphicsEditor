@@ -1,11 +1,11 @@
 package utility;
 
+import figures.Figure;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Popup;
 
@@ -18,11 +18,12 @@ public class PopupPanel implements Mover {
     private MouseEvent event;
     private Popup popup = new Popup();
     private HBox panel = new HBox();
-    private Polygon figure;
+    private Figure figure;
 
     public PopupPanel(Pane pane){
         this.pane = pane;
         init();
+
     }
     private void init(){
         stdButtons();
@@ -30,10 +31,18 @@ public class PopupPanel implements Mover {
         this.popup.getContent().add(this.panel);
     }
 
-    public void showPopup(MouseEvent event, Polygon figure) {
+    public void showPopup(MouseEvent event, Figure figure) {
         this.figure = figure;
-        this.popup.hide();
+        //this.figure = figure;
+        //this.popup.hide();
+        //this.pane.getChildren().remove(this.panel);
         getEvent(event);
+        //this.panel.setLayoutX(this.event.getX());
+        //this.panel.setLayoutY(this.event.getY());
+        this.panel.toFront();
+        //this.pane.getChildren().add(this.panel);
+        this.popup.setX(this.event.getX());
+        this.popup.setX(this.event.getY());
         this.popup.show(this.pane, this.event.getScreenX(), this.event.getScreenY());
     }
 
@@ -42,6 +51,7 @@ public class PopupPanel implements Mover {
         Button close = new Button("Close");
         close.setOnAction(e -> {
             this.popup.hide();
+            //this.pane.getChildren().remove(this.panel);
         });
         buttons.add(close);
         buttons.add(moveButton());
@@ -63,7 +73,7 @@ public class PopupPanel implements Mover {
         Button move = new Button("Move");
         move.setOnAction(e -> {
             if (this.figure != null) {
-                this.figure.setFill(Color.AQUA);
+                //this.figure.setFill(Color.AQUA);
                 createMoveDialog();
             }
         });
@@ -157,8 +167,8 @@ public class PopupPanel implements Mover {
             return;
         }
         Double[] result = parseResult.get();
-        this.figure.setTranslateX(result[1]);
-        this.figure.setTranslateY(result[0]);
+//        this.figure.setTranslateX(result[1]);
+//        this.figure.setTranslateY(result[0]);
     }
 
     @Override
@@ -166,10 +176,50 @@ public class PopupPanel implements Mover {
         if (!parseResult.isPresent()) {
             return;
         }
+//        System.out.println("X current: " + this.figure.getTranslateX());
+//        System.out.println("Y current: " + this.figure.getTranslateY());
         Double[] result = parseResult.get();
-        System.out.println("X: " + result[1]);
-        this.figure.setTranslateX(result[1]);
-        System.out.println("Y: " + result[0]);
-        this.figure.setTranslateY(result[0]);
+//
+//        ObservableList<Double> points = this.figure.getPoints();
+//        this.figure.setLayoutX(result[1]);
+//        this.figure.setLayoutY(result[0]);
+//        //this.figure.setTranslateX(result[1]);
+        moveOnX(result[1]);
+        moveOnY(result[0]);
+        this.figure.init();
+        Polygon fig = new Polygon();
+        fig.getPoints().addAll(this.figure.getPoints());
+        this.pane.getChildren().add(fig);
+//        System.out.println("X: " + result[1]);
+//        System.out.println("Y: " + result[0]);
+//        //this.figure.setTranslateY(result[0]);
+    }
+
+    public void toFront() {
+        this.panel.toFront();
+    }
+    @Override
+    public void moveOnX(double distance) {
+        System.out.println("before moving");
+//        double[] xArray = this.figure.getXPoints();
+//        for (int x=0; x<xArray.length; x++) {
+//            x += distance;
+//        }
+//        this.figure.setXPoints(xArray);
+        this.figure.setX(this.figure.getX() + distance);
+        System.out.println("after moving");
+    }
+
+    @Override
+    public void moveOnY(double distance) {
+        double[] yArray = this.figure.getYPoints();
+        for (int y=0; y<yArray.length; y++) {
+            y += distance;
+        }
+        this.figure.setYPoints(yArray);
+    }
+
+    public Figure getFigure() {
+        return this.figure;
     }
 }

@@ -17,7 +17,8 @@ public class Painter {
     }
     public void draw(Figure figure) {
         figure.init();
-        this.pane.getChildren().add(initParameters(figure));
+        Polygon fig = initParameters(figure);
+        this.pane.getChildren().add(fig);
     }
 
     public void drawAll(FigureList array) {
@@ -27,13 +28,14 @@ public class Painter {
     }
 
     private Polygon initParameters(Figure figure){
-        Polygon fig = new Polygon();
+        Polygon fig = figure.getFigure();
         fig.getPoints().addAll(figure.getPoints());
         fig.setFill(Color.rgb(255, 255, 255, 0));
         fig.setStroke(this.borderColor);
         fig.setStrokeWidth(this.lineWidth);
         fig.setOnMouseClicked(e -> {
-            this.popupPanel.showPopup(e, fig);
+            this.popupPanel.showPopup(e, figure);
+            this.popupPanel.toFront();
         });
 
         return fig;

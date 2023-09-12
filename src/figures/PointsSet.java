@@ -1,13 +1,16 @@
 package figures;
 
+import javafx.scene.shape.Polygon;
+
 public class PointsSet {
     private Double[] points;
     private double[] xAxis;
     private double[] yAxis;
     private int number_of_points;
+    private Polygon figure;
 
     public void initPoints(){
-        Double[] points = new Double[this.number_of_points * 2];
+        //Double[] points = new Double[this.number_of_points * 2];
         if (xAxis.length != yAxis.length) {
             throw new IllegalArgumentException("Different length of arrays");
         }
@@ -19,6 +22,12 @@ public class PointsSet {
             combinedArray[i * 2 + 1] = yAxis[i]; // Вторая половина массива содержит y
         }
         this.points = combinedArray;
+    }
+    public Polygon getPolygon() {
+        this.figure = new Polygon();
+        this.figure.getPoints().addAll(this.points);
+
+        return this.figure;
     }
     public Double[] getPoints() {
         return this.points;

@@ -1,19 +1,23 @@
 package figures;
 
+import javafx.scene.shape.Polygon;
+
 public abstract class Figure {
     protected double x;
     protected double y;
     private PointsSet points;
+    private Polygon figure;
 
     public Figure(double x, double y) {
         this.x = x;
         this.y = y;
+        this.points = new PointsSet();
     }
 
     public Figure() {
         this(0, 0);
     }
-
+    public abstract Polygon getFigure();
     public abstract void init();
     public abstract Double[] getPoints();
     public double getX() {
@@ -31,9 +35,21 @@ public abstract class Figure {
     public void setY(double y) {
         this.y = y;
     }
-    public abstract double[] getXPoints();
+    public double[] getXPoints() {
+        return this.points.getX_axis();
+    }
 
-    public abstract double[] getYPoints();
+    public void setXPoints(double[] xPoints) {
+        this.points.setX_axis(xPoints);
+    }
+
+    public double[] getYPoints(){
+        return this.points.getY_axis();
+    }
+
+    public void setYPoints(double[] yPoints) {
+        this.points.setY_axis(yPoints);
+    }
 
     public abstract int getNumberOfPoints();
 }

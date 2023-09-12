@@ -1,5 +1,7 @@
 package figures;
 
+import javafx.scene.shape.Polygon;
+
 public class Circle extends Figure {
     private double radius;
     private PointsSet points;
@@ -13,6 +15,11 @@ public class Circle extends Figure {
     public Circle() {
         this(0, 0);
         this.points = new PointsSet();
+    }
+
+    @Override
+    public Polygon getFigure() {
+        return this.points.getPolygon();
     }
 
     public double getRadius() {

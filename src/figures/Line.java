@@ -1,5 +1,7 @@
 package figures;
 
+import javafx.scene.shape.Polygon;
+
 public class Line extends Figure {
     private double endX;
     private double endY;
@@ -20,6 +22,11 @@ public class Line extends Figure {
         this.endY = 20;
         this.points = new PointsSet();
         //init();
+    }
+
+    @Override
+    public Polygon getFigure() {
+        return this.points.getPolygon();
     }
 
     public void setEndX(double endX) {
