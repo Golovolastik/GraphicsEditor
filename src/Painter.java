@@ -10,6 +10,7 @@ public class Painter {
     private double lineWidth = 2;
     private Color borderColor = Color.BLACK;
     private PopupPanel popupPanel;
+    private Polygon polygon;
 
     public Painter(Pane pane) {
         this.pane = pane;
@@ -17,8 +18,10 @@ public class Painter {
     }
     public void draw(Figure figure) {
         figure.init();
-        Polygon fig = initParameters(figure);
-        this.pane.getChildren().add(fig);
+        this.polygon = figure.getPolygon();
+        this.polygon = initParameters(figure);
+        figure.setPolygon(this.polygon);
+        this.pane.getChildren().add(figure.getPolygon());
     }
 
     public void drawAll(FigureList array) {
@@ -28,17 +31,23 @@ public class Painter {
     }
 
     private Polygon initParameters(Figure figure){
-        Polygon fig = figure.getFigure();
-        fig.getPoints().addAll(figure.getPoints());
-        fig.setFill(Color.rgb(255, 255, 255, 0));
-        fig.setStroke(this.borderColor);
-        fig.setStrokeWidth(this.lineWidth);
-        fig.setOnMouseClicked(e -> {
+        //Polygon fig = figure.getFigure();
+        this.polygon.getPoints().addAll(figure.getPoints());
+        this.polygon.setFill(Color.rgb(255, 255, 255, 0));
+        this.polygon.setStroke(Color.BLACK);
+        this.polygon.setStrokeWidth(this.lineWidth);
+//        System.out.println(this.polygon == figure.getPolygon());
+//        System.out.println(this.polygon.equals(figure.getPolygon()));
+        this.polygon.setOnMouseClicked(e -> {
+            figure.setPolygon(this.polygon);
+            System.out.println("this.polygon: " + this.polygon);
+            System.out.println("figure.getPolygon(): " + figure.getPolygon());
+            System.out.println(this.polygon == figure.getPolygon());
             this.popupPanel.showPopup(e, figure);
             this.popupPanel.toFront();
         });
 
-        return fig;
+        return this.polygon;
     }
 
     public void setLineWidth(double lineWidth) {

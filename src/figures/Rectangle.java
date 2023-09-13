@@ -1,11 +1,10 @@
 package figures;
 
-import javafx.scene.shape.Polygon;
-
 public class Rectangle extends Figure  {
     private double width;
     private double height;
     private PointsSet points;
+
 
     public Rectangle(double x, double y) {
         super(x, y);
@@ -18,12 +17,6 @@ public class Rectangle extends Figure  {
         this(0, 0);
         this.points = new PointsSet();
     }
-
-    @Override
-    public Polygon getFigure() {
-        return this.points.getPolygon();
-    }
-
     @Override
     public void init() {
         this.points.setNumber_of_points(4);

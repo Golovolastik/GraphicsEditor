@@ -6,7 +6,7 @@ public abstract class Figure {
     protected double x;
     protected double y;
     private PointsSet points;
-    private Polygon figure;
+    private Polygon polygon = new Polygon();
 
     public Figure(double x, double y) {
         this.x = x;
@@ -17,7 +17,15 @@ public abstract class Figure {
     public Figure() {
         this(0, 0);
     }
-    public abstract Polygon getFigure();
+    public Polygon getPolygon(){
+        return this.polygon;
+    }
+    public void setPolygon(Polygon polygon){
+        this.polygon = polygon;
+        this.points.setPolygon(this.polygon);
+    }
+
+
     public abstract void init();
     public abstract Double[] getPoints();
     public double getX() {

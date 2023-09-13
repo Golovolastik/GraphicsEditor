@@ -19,6 +19,8 @@ public class PopupPanel implements Mover {
     private Popup popup = new Popup();
     private HBox panel = new HBox();
     private Figure figure;
+    private Polygon polygon;
+
 
     public PopupPanel(Pane pane){
         this.pane = pane;
@@ -29,10 +31,12 @@ public class PopupPanel implements Mover {
         stdButtons();
         this.panel.getChildren().addAll(this.buttons);
         this.popup.getContent().add(this.panel);
+
     }
 
     public void showPopup(MouseEvent event, Figure figure) {
         this.figure = figure;
+        this.polygon = this.figure.getPolygon();
         //this.figure = figure;
         //this.popup.hide();
         //this.pane.getChildren().remove(this.panel);
@@ -186,10 +190,14 @@ public class PopupPanel implements Mover {
 //        //this.figure.setTranslateX(result[1]);
         moveOnX(result[1]);
         moveOnY(result[0]);
+        this.pane.getChildren().remove(this.polygon);
         this.figure.init();
-        Polygon fig = new Polygon();
-        fig.getPoints().addAll(this.figure.getPoints());
-        this.pane.getChildren().add(fig);
+        this.polygon.getPoints().addAll(this.figure.getPoints());
+        System.out.println("this.polygon: " + this.polygon);
+        System.out.println("figure.getPolygon(): " + figure.getPolygon());
+        this.figure.setPolygon(this.polygon);
+        //this.pane.getChildren().remove(this.figure.getFigure());
+        this.pane.getChildren().add(this.figure.getPolygon());
 //        System.out.println("X: " + result[1]);
 //        System.out.println("Y: " + result[0]);
 //        //this.figure.setTranslateY(result[0]);
@@ -200,23 +208,12 @@ public class PopupPanel implements Mover {
     }
     @Override
     public void moveOnX(double distance) {
-        System.out.println("before moving");
-//        double[] xArray = this.figure.getXPoints();
-//        for (int x=0; x<xArray.length; x++) {
-//            x += distance;
-//        }
-//        this.figure.setXPoints(xArray);
         this.figure.setX(this.figure.getX() + distance);
-        System.out.println("after moving");
     }
 
     @Override
     public void moveOnY(double distance) {
-        double[] yArray = this.figure.getYPoints();
-        for (int y=0; y<yArray.length; y++) {
-            y += distance;
-        }
-        this.figure.setYPoints(yArray);
+        this.figure.setY(this.figure.getY() + distance);
     }
 
     public Figure getFigure() {

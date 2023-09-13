@@ -1,11 +1,10 @@
 package figures;
 
-import javafx.scene.shape.Polygon;
-
 public class Ellipse extends Figure {
     private double radiusX;
     private double radiusY;
     private PointsSet points;
+
 
     public Ellipse(double centerX, double centerY) {
         super(centerX, centerY);
@@ -18,11 +17,6 @@ public class Ellipse extends Figure {
     public Ellipse() {
         this(0, 0);
         this.points = new PointsSet();
-    }
-
-    @Override
-    public Polygon getFigure() {
-        return this.points.getPolygon();
     }
 
     @Override

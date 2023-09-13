@@ -24,10 +24,10 @@ public class PointsSet {
         this.points = combinedArray;
     }
     public Polygon getPolygon() {
-        this.figure = new Polygon();
-        this.figure.getPoints().addAll(this.points);
-
         return this.figure;
+    }
+    public void setPolygon(Polygon polygon) {
+        this.figure = polygon;
     }
     public Double[] getPoints() {
         return this.points;
@@ -54,4 +54,5 @@ public class PointsSet {
     public void setNumber_of_points(int number_of_points) {
         this.number_of_points = number_of_points;
     }
+
 }
