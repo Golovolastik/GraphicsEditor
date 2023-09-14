@@ -12,7 +12,6 @@ public class Line extends Figure {
         this.endX = endX;
         this.endY = endY;
         this.points = new PointsSet();
-        //init();
     }
 
     public Line() {
@@ -20,7 +19,18 @@ public class Line extends Figure {
         this.endX = 20;
         this.endY = 20;
         this.points = new PointsSet();
-        //init();
+    }
+    @Override
+    public void setX(double x) {
+        double distance = x - this.x;
+        this.x = x;
+        this.endX += distance;
+    }
+    @Override
+    public void setY(double y) {
+        double distance = y - this.y;
+        this.y = y;
+        this.endY += distance;
     }
     public void setEndX(double endX) {
         this.endX = endX;

@@ -171,8 +171,14 @@ public class PopupPanel implements Mover {
             return;
         }
         Double[] result = parseResult.get();
-//        this.figure.setTranslateX(result[1]);
-//        this.figure.setTranslateY(result[0]);
+        this.figure.setX(result[1]);
+        this.figure.setY(result[0]);
+        this.pane.getChildren().remove(this.polygon);
+        this.figure.init();
+        this.polygon.getPoints().clear();
+        this.polygon.getPoints().addAll(this.figure.getPoints());
+        this.figure.setPolygon(this.polygon);
+        this.pane.getChildren().add(this.figure.getPolygon());
     }
 
     @Override
@@ -180,27 +186,15 @@ public class PopupPanel implements Mover {
         if (!parseResult.isPresent()) {
             return;
         }
-//        System.out.println("X current: " + this.figure.getTranslateX());
-//        System.out.println("Y current: " + this.figure.getTranslateY());
         Double[] result = parseResult.get();
-//
-//        ObservableList<Double> points = this.figure.getPoints();
-//        this.figure.setLayoutX(result[1]);
-//        this.figure.setLayoutY(result[0]);
-//        //this.figure.setTranslateX(result[1]);
         moveOnX(result[1]);
         moveOnY(result[0]);
         this.pane.getChildren().remove(this.polygon);
         this.figure.init();
+        this.polygon.getPoints().clear();
         this.polygon.getPoints().addAll(this.figure.getPoints());
-        System.out.println("this.polygon: " + this.polygon);
-        System.out.println("figure.getPolygon(): " + figure.getPolygon());
         this.figure.setPolygon(this.polygon);
-        //this.pane.getChildren().remove(this.figure.getFigure());
         this.pane.getChildren().add(this.figure.getPolygon());
-//        System.out.println("X: " + result[1]);
-//        System.out.println("Y: " + result[0]);
-//        //this.figure.setTranslateY(result[0]);
     }
 
     public void toFront() {

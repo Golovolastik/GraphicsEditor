@@ -31,18 +31,13 @@ public class Painter {
     }
 
     private Polygon initParameters(Figure figure){
-        //Polygon fig = figure.getFigure();
         this.polygon.getPoints().addAll(figure.getPoints());
         this.polygon.setFill(Color.rgb(255, 255, 255, 0));
         this.polygon.setStroke(Color.BLACK);
         this.polygon.setStrokeWidth(this.lineWidth);
-//        System.out.println(this.polygon == figure.getPolygon());
-//        System.out.println(this.polygon.equals(figure.getPolygon()));
         this.polygon.setOnMouseClicked(e -> {
+            this.polygon = figure.getPolygon();
             figure.setPolygon(this.polygon);
-            System.out.println("this.polygon: " + this.polygon);
-            System.out.println("figure.getPolygon(): " + figure.getPolygon());
-            System.out.println(this.polygon == figure.getPolygon());
             this.popupPanel.showPopup(e, figure);
             this.popupPanel.toFront();
         });
