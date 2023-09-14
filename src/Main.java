@@ -2,8 +2,7 @@ import figures.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -13,16 +12,16 @@ public class Main extends Application {
         primaryStage.setTitle("Figures");
 
         Group root = new Group();
-        Canvas canvas = new Canvas(800, 600);
-        DrawingController controller = new DrawingController(canvas);
-        // Создаем панель с кнопками
+        Pane board = new Pane();
+        board.setPrefSize(800, 600);
+        Painter painter = new Painter(board);
+        DrawingController controller = new DrawingController(board, painter);
         VBox buttonPanel = controller.createButtonPanel();
-        root.getChildren().addAll(canvas, buttonPanel);
+        root.getChildren().addAll(board, buttonPanel);
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         FigureList figureList = new FigureList();
         Circle circle = new Circle(400, 300);
@@ -33,7 +32,7 @@ public class Main extends Application {
         figureList.addFigure(new Parallelogram(150, 350));
         figureList.addFigure(new Line(150, 250, 400, 50));
 
-        Painter painter = new Painter(gc);
+
         painter.drawAll(figureList);
 
         primaryStage.show();

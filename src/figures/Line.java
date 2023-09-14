@@ -6,12 +6,12 @@ public class Line extends Figure {
     private PointsSet points;
 
 
+
     public Line(double startX, double startY, double endX, double endY) {
         super(startX, startY);
         this.endX = endX;
         this.endY = endY;
         this.points = new PointsSet();
-        //init();
     }
 
     public Line() {
@@ -19,9 +19,19 @@ public class Line extends Figure {
         this.endX = 20;
         this.endY = 20;
         this.points = new PointsSet();
-        //init();
     }
-
+    @Override
+    public void setX(double x) {
+        double distance = x - this.x;
+        this.x = x;
+        this.endX += distance;
+    }
+    @Override
+    public void setY(double y) {
+        double distance = y - this.y;
+        this.y = y;
+        this.endY += distance;
+    }
     public void setEndX(double endX) {
         this.endX = endX;
     }
@@ -43,6 +53,10 @@ public class Line extends Figure {
         this.points.setNumber_of_points(2);
         this.points.setX_axis(new double[]{getX(), getEndX()});
         this.points.setY_axis(new double[]{getY(), getEndY()});
+        this.points.initPoints();
+    }
+    public Double[] getPoints() {
+        return this.points.getPoints();
     }
 
     public double[] getXPoints() {

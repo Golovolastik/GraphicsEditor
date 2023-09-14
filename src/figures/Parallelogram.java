@@ -7,13 +7,13 @@ public class Parallelogram extends Figure {
     private PointsSet points;
 
 
+
     public Parallelogram(double x, double y) {
         super(x, y);
         this.width = 100;
         this.height = 50;
         this.angle = 30;
         this.points = new PointsSet();
-        //init();
     }
     public Parallelogram() {
         super(0, 0);
@@ -37,7 +37,11 @@ public class Parallelogram extends Figure {
         double y4 = y1 + height;
         this.points.setX_axis(new double[]{x1, x2, x3, x4});
         this.points.setY_axis(new double[]{y1, y2, y3, y4});
+        this.points.initPoints();
 
+    }
+    public Double[] getPoints() {
+        return this.points.getPoints();
     }
 
     public double[] getXPoints() {

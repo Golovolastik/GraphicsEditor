@@ -5,6 +5,7 @@ public class Ellipse extends Figure {
     private double radiusY;
     private PointsSet points;
 
+
     public Ellipse(double centerX, double centerY) {
         super(centerX, centerY);
         this.radiusX = 80;
@@ -32,6 +33,10 @@ public class Ellipse extends Figure {
         }
         this.points.setX_axis(xAxis);
         this.points.setY_axis(yAxis);
+        this.points.initPoints();
+    }
+    public Double[] getPoints() {
+        return this.points.getPoints();
     }
 
     public double[] getXPoints() {
