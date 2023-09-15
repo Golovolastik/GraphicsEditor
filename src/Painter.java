@@ -1,4 +1,5 @@
 import figures.Figure;
+import javafx.scene.Cursor;
 import utility.PopupPanel;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -36,6 +37,9 @@ public class Painter {
         this.polygon.setStroke(Color.BLACK);
         this.polygon.setStrokeWidth(this.lineWidth);
         this.polygon.setOnMouseClicked(e -> {
+            if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
+                return;
+            }
             this.polygon = figure.getPolygon();
             figure.setPolygon(this.polygon);
             this.popupPanel.showPopup(e, figure);

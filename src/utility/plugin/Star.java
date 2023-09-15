@@ -1,5 +1,5 @@
-package figures;
-
+import figures.Figure;
+import figures.PointsSet;
 import javafx.scene.shape.Polygon;
 
 public class Star extends Figure {
