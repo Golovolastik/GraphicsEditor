@@ -37,14 +37,8 @@ public class PopupPanel implements Mover {
     public void showPopup(MouseEvent event, Figure figure) {
         this.figure = figure;
         this.polygon = this.figure.getPolygon();
-        //this.figure = figure;
-        //this.popup.hide();
-        //this.pane.getChildren().remove(this.panel);
         getEvent(event);
-        //this.panel.setLayoutX(this.event.getX());
-        //this.panel.setLayoutY(this.event.getY());
         this.panel.toFront();
-        //this.pane.getChildren().add(this.panel);
         this.popup.setX(this.event.getX());
         this.popup.setX(this.event.getY());
         this.popup.show(this.pane, this.event.getScreenX(), this.event.getScreenY());
@@ -55,9 +49,13 @@ public class PopupPanel implements Mover {
         Button close = new Button("Close");
         close.setOnAction(e -> {
             this.popup.hide();
-            //this.pane.getChildren().remove(this.panel);
+        });
+        Button delete = new Button("Delete");
+        delete.setOnAction(e -> {
+            this.pane.getChildren().remove(this.polygon);
         });
         buttons.add(close);
+        buttons.add(delete);
         buttons.add(moveButton());
         this.buttons = buttons;
     }

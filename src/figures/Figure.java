@@ -24,7 +24,9 @@ public abstract class Figure {
         this.polygon = polygon;
         this.points.setPolygon(this.polygon);
     }
+    public void delete() {
 
+    }
 
     public abstract void init();
     public abstract Double[] getPoints();

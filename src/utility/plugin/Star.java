@@ -16,6 +16,11 @@ public class Star extends Figure {
         super(0, 0);
         this.points = new PointsSet();
     }
+
+    public void hello() {
+        System.out.println("hello");
+    }
+
     @Override
     public void init() {
         int numberOfPoints = 5;

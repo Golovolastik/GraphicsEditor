@@ -44,7 +44,6 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            //Painter painter = new Painter(this.pane);
             this.figureList.addFigure(figure);
             this.painter.draw(figure);
         }
@@ -129,8 +128,6 @@ public class DrawingController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
-
 
     private Button createFigureButton(javafx.scene.shape.Shape figure) {
         Button drawButton = new Button();
