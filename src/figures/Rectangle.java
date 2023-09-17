@@ -48,4 +48,10 @@ public class Rectangle extends Figure  {
         params.put("height", this.height);
         return params;
     }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.width = params.get("width");
+        this.height = params.get("height");
+    }
 }

@@ -1,3 +1,5 @@
+package utility.plugin;
+
 import figures.Figure;
 import figures.PointsSet;
 import javafx.scene.shape.Polygon;
@@ -60,5 +62,10 @@ public class Star extends Figure {
     @Override
     public HashMap<String, Double> getParameters() {
         return null;
+    }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+
     }
 }

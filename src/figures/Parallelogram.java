@@ -66,4 +66,11 @@ public class Parallelogram extends Figure {
         params.put("angle", this.angle);
         return params;
     }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.width = params.get("width");
+        this.height = params.get("height");
+        this.angle = params.get("angle");
+    }
 }

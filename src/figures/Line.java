@@ -82,4 +82,12 @@ public class Line extends Figure {
         params.put("endY", this.endY);
         return params;
     }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.x = params.get("startX");
+        this.y = params.get("startY");
+        this.endX = params.get("endX");
+        this.endY = params.get("endY");
+    }
 }

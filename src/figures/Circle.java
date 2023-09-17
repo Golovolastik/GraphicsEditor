@@ -63,4 +63,9 @@ public class Circle extends Figure {
         params.put("radius", this.radius);
         return params;
     }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.radius = params.get("radius");
+    }
 }

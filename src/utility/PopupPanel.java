@@ -246,11 +246,20 @@ public class PopupPanel implements Mover, Sizer {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 double[] values = handleResizeButtonClick(fields);
+                if (values == null) {
+                    return null;
+                }
                 HashMap<String, Double> result = new HashMap<>();
                 for (int i=0; i<labels.size(); i++){
-                    result.put(labels.get(0).toString(), values[i]);
+                    result.put(labels.get(i).getText(), values[i]);
                 }
-
+                this.figure.setParameters(result);
+                this.pane.getChildren().remove(this.polygon);
+                this.figure.init();
+                this.polygon.getPoints().clear();
+                this.polygon.getPoints().addAll(this.figure.getPoints());
+                this.figure.setPolygon(this.polygon);
+                this.pane.getChildren().add(this.figure.getPolygon());
             }
             return null;
         });
@@ -263,6 +272,7 @@ public class PopupPanel implements Mover, Sizer {
             for (TextField param: fields) {
                     double value = Double.parseDouble(param.getText());
                     params[count] = value;
+                    count++;
                 }
             return  params;
         } catch (NumberFormatException e) {

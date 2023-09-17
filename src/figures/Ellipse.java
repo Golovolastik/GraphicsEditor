@@ -59,4 +59,10 @@ public class Ellipse extends Figure {
         params.put("radiusX", this.radiusX);
         params.put("radiusY", this.radiusY);
         return params;    }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.radiusX = params.get("radiusX");
+        this.radiusY = params.get("radiusY");
+    }
 }

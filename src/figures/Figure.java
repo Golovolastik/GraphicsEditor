@@ -65,4 +65,5 @@ public abstract class Figure {
 
     public abstract int getNumberOfPoints();
     public abstract HashMap<String, Double> getParameters();
+    public abstract void setParameters(HashMap<String, Double> params);
 }
