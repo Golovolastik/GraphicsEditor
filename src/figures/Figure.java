@@ -2,9 +2,10 @@ package figures;
 
 import javafx.scene.shape.Polygon;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public abstract class Figure {
+public abstract class Figure implements Serializable {
     protected double x;
     protected double y;
     private PointsSet points;

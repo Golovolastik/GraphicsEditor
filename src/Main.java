@@ -6,7 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import utility.FigureList;
 import utility.PluginChooser;
+import utility.Serializer;
 
 public class Main extends Application {
     @Override
@@ -17,6 +19,7 @@ public class Main extends Application {
         Pane board = new Pane();
         board.setPrefSize(800, 600);
         FigureList figureList = new FigureList();
+        Serializer serializer = new Serializer(figureList);
         Painter painter = new Painter(board, figureList);
         DrawingController controller = new DrawingController(board, painter, figureList);
         VBox buttonPanel = controller.createButtonPanel();
