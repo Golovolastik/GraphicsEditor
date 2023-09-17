@@ -10,9 +10,10 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Popup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
-public class PopupPanel implements Mover {
+public class PopupPanel implements Mover, Sizer {
     private ArrayList<Button> buttons;
     private Pane pane;
     private MouseEvent event;
@@ -50,12 +51,8 @@ public class PopupPanel implements Mover {
         close.setOnAction(e -> {
             this.popup.hide();
         });
-//        Button delete = new Button("Delete");
-//        delete.setOnAction(e -> {
-//            this.pane.getChildren().remove(this.polygon);
-//        });
         buttons.add(close);
-        //buttons.add(delete);
+        buttons.add(resizeButton());
         buttons.add(moveButton());
         this.buttons = buttons;
     }
@@ -80,6 +77,17 @@ public class PopupPanel implements Mover {
             }
         });
         return move;
+    }
+
+    private Button resizeButton() {
+        Button resize = new Button("Resize");
+        resize.setOnAction(e -> {
+            if (this.figure != null) {
+                //this.figure.setFill(Color.AQUA);
+                changeParameters();
+            }
+        });
+        return resize;
     }
 
     private Dialog<Double[]> createMoveDialog() {
@@ -211,4 +219,56 @@ public class PopupPanel implements Mover {
     public Figure getFigure() {
         return this.figure;
     }
+
+    @Override
+    public void changeParameters() {
+        HashMap<String, Double> params = this.figure.getParameters();
+        createResizeDialog(params);
+    }
+    private void createResizeDialog(HashMap<String, Double> params) {
+        Dialog<Double[]> dialog = new Dialog<>();
+        dialog.setTitle("Resize");
+        GridPane grid = new GridPane();
+        int counter = 0;
+        ArrayList<Label> labels = new ArrayList<>();
+        ArrayList<TextField> fields = new ArrayList<>();
+        for (String param: params.keySet()) {
+            Label label = new Label(param);
+            grid.add(label, 0, counter);
+            labels.add(label);
+            TextField field = new TextField(params.get(param).toString());
+            fields.add(field);
+            grid.add(field, 1, counter);
+            counter++;
+        }
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == ButtonType.OK) {
+                double[] values = handleResizeButtonClick(fields);
+                HashMap<String, Double> result = new HashMap<>();
+                for (int i=0; i<labels.size(); i++){
+                    result.put(labels.get(0).toString(), values[i]);
+                }
+
+            }
+            return null;
+        });
+        dialog.showAndWait();
+    }
+    private double[] handleResizeButtonClick(ArrayList<TextField> fields) {
+        try {
+            double[] params = new double[fields.size()];
+            int count = 0;
+            for (TextField param: fields) {
+                    double value = Double.parseDouble(param.getText());
+                    params[count] = value;
+                }
+            return  params;
+        } catch (NumberFormatException e) {
+            showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
+            return null;
+        }
+    }
+
 }

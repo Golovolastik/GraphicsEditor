@@ -2,6 +2,8 @@ import figures.Figure;
 import figures.PointsSet;
 import javafx.scene.shape.Polygon;
 
+import java.util.HashMap;
+
 public class Star extends Figure {
     private PointsSet points;
     private Polygon polygon = new Polygon();
@@ -53,5 +55,10 @@ public class Star extends Figure {
     @Override
     public int getNumberOfPoints() {
         return 360;
+    }
+
+    @Override
+    public HashMap<String, Double> getParameters() {
+        return null;
     }
 }

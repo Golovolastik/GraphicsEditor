@@ -1,5 +1,7 @@
 package figures;
 
+import java.util.HashMap;
+
 public class Circle extends Figure {
     private double radius;
     private PointsSet points;
@@ -53,5 +55,12 @@ public class Circle extends Figure {
 
     public int getNumberOfPoints() {
         return this.points.getNumber_of_points();
+    }
+
+    @Override
+    public HashMap<String, Double> getParameters() {
+        HashMap<String, Double> params = new HashMap<>();
+        params.put("radius", this.radius);
+        return params;
     }
 }

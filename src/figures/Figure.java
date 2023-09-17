@@ -2,6 +2,8 @@ package figures;
 
 import javafx.scene.shape.Polygon;
 
+import java.util.HashMap;
+
 public abstract class Figure {
     protected double x;
     protected double y;
@@ -62,4 +64,5 @@ public abstract class Figure {
     }
 
     public abstract int getNumberOfPoints();
+    public abstract HashMap<String, Double> getParameters();
 }

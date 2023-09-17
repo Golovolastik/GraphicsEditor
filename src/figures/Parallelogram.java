@@ -1,5 +1,7 @@
 package figures;
 
+import java.util.HashMap;
+
 public class Parallelogram extends Figure {
     private double width;
     private double height;
@@ -54,5 +56,14 @@ public class Parallelogram extends Figure {
 
     public int getNumberOfPoints() {
         return this.points.getNumber_of_points();
+    }
+
+    @Override
+    public HashMap<String, Double> getParameters() {
+        HashMap<String, Double> params = new HashMap<>();
+        params.put("width", this.width);
+        params.put("height", this.height);
+        params.put("angle", this.angle);
+        return params;
     }
 }
