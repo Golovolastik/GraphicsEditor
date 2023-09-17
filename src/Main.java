@@ -16,8 +16,9 @@ public class Main extends Application {
         Group root = new Group();
         Pane board = new Pane();
         board.setPrefSize(800, 600);
-        Painter painter = new Painter(board);
-        DrawingController controller = new DrawingController(board, painter);
+        FigureList figureList = new FigureList();
+        Painter painter = new Painter(board, figureList);
+        DrawingController controller = new DrawingController(board, painter, figureList);
         VBox buttonPanel = controller.createButtonPanel();
 
         Button plugin = new PluginChooser().createChoosePluginButton(primaryStage);
@@ -27,9 +28,10 @@ public class Main extends Application {
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
 
-        FigureList figureList = new FigureList();
+
         Circle circle = new Circle(400, 300);
         circle.setRadius(150);
+        //painter.draw(circle);
         figureList.addFigure(circle);
         figureList.addFigure(new Ellipse(400, 200));
         figureList.addFigure(new Rectangle(350, 450));
@@ -38,7 +40,7 @@ public class Main extends Application {
         //figureList.addFigure(new Star(250, 250));
 
 
-        painter.drawAll(figureList);
+        painter.drawAll();
 
         primaryStage.show();
     }

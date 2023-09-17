@@ -7,6 +7,9 @@ public class FigureList {
     private List<Figure> figures = new ArrayList<>();
 
     public void addFigure(Figure figure) {
+        if (figures.contains(figure)) {
+            return;
+        }
         figures.add(figure);
 
     }

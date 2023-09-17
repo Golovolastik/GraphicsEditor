@@ -1,9 +1,9 @@
 import figures.Figure;
 import javafx.scene.Cursor;
-import utility.PopupPanel;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import utility.PopupPanel;
 
 
 public class Painter {
@@ -12,10 +12,12 @@ public class Painter {
     private Color borderColor = Color.BLACK;
     private PopupPanel popupPanel;
     private Polygon polygon;
+    private FigureList figureList;
 
-    public Painter(Pane pane) {
+    public Painter(Pane pane, FigureList figureList) {
         this.pane = pane;
         this.popupPanel = new PopupPanel(this.pane);
+        this.figureList = figureList;
     }
     public void draw(Figure figure) {
         figure.init();
@@ -23,10 +25,11 @@ public class Painter {
         this.polygon = initParameters(figure);
         figure.setPolygon(this.polygon);
         this.pane.getChildren().add(figure.getPolygon());
+        this.figureList.addFigure(figure);
     }
 
-    public void drawAll(FigureList array) {
-        for (Figure figure: array.getFigures()) {
+    public void drawAll() {
+        for (Figure figure: this.figureList.getFigures()) {
             this.draw(figure);
         }
     }
@@ -38,6 +41,12 @@ public class Painter {
         this.polygon.setStrokeWidth(this.lineWidth);
         this.polygon.setOnMouseClicked(e -> {
             if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
+                return;
+            }
+            if (e.isShiftDown()) {
+                this.polygon = figure.getPolygon();
+                this.pane.getChildren().remove(this.polygon);
+                this.figureList.remove(figure);
                 return;
             }
             this.polygon = figure.getPolygon();

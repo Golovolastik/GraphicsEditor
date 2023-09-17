@@ -50,12 +50,12 @@ public class PopupPanel implements Mover {
         close.setOnAction(e -> {
             this.popup.hide();
         });
-        Button delete = new Button("Delete");
-        delete.setOnAction(e -> {
-            this.pane.getChildren().remove(this.polygon);
-        });
+//        Button delete = new Button("Delete");
+//        delete.setOnAction(e -> {
+//            this.pane.getChildren().remove(this.polygon);
+//        });
         buttons.add(close);
-        buttons.add(delete);
+        //buttons.add(delete);
         buttons.add(moveButton());
         this.buttons = buttons;
     }

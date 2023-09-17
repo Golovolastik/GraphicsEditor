@@ -17,10 +17,10 @@ public class DrawingController {
     private FigureList figureList;
     private Painter painter;
 
-    public DrawingController(Pane pane, Painter painter) {
+    public DrawingController(Pane pane, Painter painter, FigureList figureList) {
         this.pane = pane;
         this.painter = painter;
-        this.figureList = new FigureList();
+        this.figureList = figureList;
     }
 
     private void clearBoard() {
@@ -44,7 +44,7 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            this.figureList.addFigure(figure);
+            //this.figureList.addFigure(figure);
             this.painter.draw(figure);
         }
     }
@@ -163,7 +163,7 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                this.figureList.addFigure(currentFigure);
+                //this.figureList.addFigure(currentFigure);
                 this.painter.draw(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
@@ -178,7 +178,7 @@ public class DrawingController {
                 ((Line) currentFigure).setEndX(event.getX());
                 ((Line) currentFigure).setEndY(event.getY());
                 this.painter.draw(currentFigure);
-                this.figureList.addFigure(currentFigure);
+                //this.figureList.addFigure(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
                 lineDrawingMode = false; // Выключаем режим рисования линии после завершения
@@ -228,6 +228,7 @@ public class DrawingController {
         for (Button button: buttonArray) {
             buttonPanel.getChildren().add(button);
         }
+
         return buttonPanel;
     }
 }
