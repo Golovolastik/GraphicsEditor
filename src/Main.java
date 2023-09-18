@@ -44,7 +44,7 @@ public class Main extends Application {
 
 
         painter.drawAll();
-
+        serializer.test();
         primaryStage.show();
     }
 
