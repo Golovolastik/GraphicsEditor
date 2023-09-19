@@ -3,10 +3,12 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utility.FigureList;
+import utility.Painter;
 import utility.PluginChooser;
 import utility.Serializer;
 
@@ -18,15 +20,15 @@ public class Main extends Application {
         Group root = new Group();
         Pane board = new Pane();
         board.setPrefSize(800, 600);
-        FigureList figureList = new FigureList();
-        Serializer serializer = new Serializer(figureList);
-        Painter painter = new Painter(board, figureList);
-        DrawingController controller = new DrawingController(board, painter, figureList);
+        FigureList figureList = FigureList.getInstance();
+        Serializer serializer = new Serializer(board);
+        Painter painter = Painter.getInstance(board);
+        DrawingController controller = new DrawingController(board, painter);
         VBox buttonPanel = controller.createButtonPanel();
-
+        HBox openSavePanel = serializer.createButtonPanel();
         Button plugin = new PluginChooser().createChoosePluginButton(primaryStage);
 
-        root.getChildren().addAll(board, buttonPanel, plugin);
+        root.getChildren().addAll(board, buttonPanel, plugin, openSavePanel);
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
@@ -34,7 +36,6 @@ public class Main extends Application {
 
         Circle circle = new Circle(400, 300);
         circle.setRadius(150);
-        //painter.draw(circle);
         figureList.addFigure(circle);
         figureList.addFigure(new Ellipse(400, 200));
         figureList.addFigure(new Rectangle(350, 450));
@@ -42,9 +43,7 @@ public class Main extends Application {
         figureList.addFigure(new Line(150, 250, 400, 50));
         //figureList.addFigure(new Star(250, 250));
 
-
         painter.drawAll();
-        serializer.test();
         primaryStage.show();
     }
 

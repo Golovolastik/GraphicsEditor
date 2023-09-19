@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import utility.FigureList;
+import utility.Painter;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -18,10 +19,10 @@ public class DrawingController {
     private FigureList figureList;
     private Painter painter;
 
-    public DrawingController(Pane pane, Painter painter, FigureList figureList) {
+    public DrawingController(Pane pane, Painter painter) {
         this.pane = pane;
         this.painter = painter;
-        this.figureList = figureList;
+        this.figureList = FigureList.getInstance();
     }
 
     private void clearBoard() {
@@ -140,19 +141,25 @@ public class DrawingController {
         return drawButton;
     }
 
-    public void configureButton(Button button, Figure figure) {
-        button.setOnMousePressed(event -> {
-            if (!drawMode) {
-                if (event.isShiftDown()) {
-                    enterFigurePoints(figure);
-                } else {
-                    drawMode = true; // Включаем режим рисования
-                    pane.setCursor(Cursor.CROSSHAIR);
-                    currentFigure = figure; // Устанавливаем текущую фигуру
-                }
-            }
-        });
-        handleDrawing();
+    public void configureButton(Button button, Class<? extends Figure> figureClass) throws Exception {
+            button.setOnMousePressed(event -> {
+                try {
+                    Figure figure = figureClass.newInstance();
+                    if (!drawMode) {
+                        if (event.isShiftDown()) {
+                            enterFigurePoints(figure);
+                        } else {
+                            drawMode = true; // Включаем режим рисования
+                            pane.setCursor(Cursor.CROSSHAIR);
+                            this.currentFigure = figure; // Устанавливаем текущую фигуру
+                        }
+                    }
+
+            } catch (Exception e) {
+            System.out.println(e);
+        }
+            });
+            handleDrawing();
     }
 
     private void handleDrawing() {
@@ -187,7 +194,7 @@ public class DrawingController {
         });
     }
 
-    public VBox createButtonPanel() {
+    public VBox createButtonPanel() throws Exception {
         VBox buttonPanel = new VBox(10);
         buttonPanel.setStyle("-fx-padding: 10px;");
 
@@ -200,20 +207,20 @@ public class DrawingController {
 
         // circle
         Button circleButton = createFigureButton(new javafx.scene.shape.Circle(10));
-        configureButton(circleButton, new Circle());
+        configureButton(circleButton, Circle.class);
         buttonArray.add(circleButton);
         // ellipse
         Button ellipseButton = createFigureButton(new javafx.scene.shape.Ellipse(15, 10));
-        configureButton(ellipseButton, new Ellipse());
+        configureButton(ellipseButton, Ellipse.class);
         buttonArray.add(ellipseButton);
         // rectangle
         Button rectangleButton = createFigureButton(new javafx.scene.shape.Rectangle(25, 17));
-        configureButton(rectangleButton, new Rectangle());
+        configureButton(rectangleButton, Rectangle.class);
         buttonArray.add(rectangleButton);
 
         // line
         Button lineButton = createFigureButton(new javafx.scene.shape.Line(15, 15, 1, 1));
-        configureButton(lineButton, new Line());
+        configureButton(lineButton, Line.class);
         buttonArray.add(lineButton);
         // parallelogram
         javafx.scene.shape.Polygon parallelogram = new javafx.scene.shape.Polygon();
@@ -222,7 +229,7 @@ public class DrawingController {
                 20.0, 18.0,
                 0.0, 18.0);
         Button parallelogramButton = createFigureButton(parallelogram);
-        configureButton(parallelogramButton, new Parallelogram());
+        configureButton(parallelogramButton, Parallelogram.class);
         buttonArray.add(parallelogramButton);
         // Размещаем кнопки на панели
         buttonPanel.getChildren().addAll(clearButton);

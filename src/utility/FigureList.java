@@ -6,7 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FigureList {
+    private static volatile FigureList instance;
     private List<Figure> figures = new ArrayList<>();
+    private FigureList(){
+
+    }
+    public static FigureList getInstance() {
+        if (instance == null) {
+            synchronized (FigureList.class) {
+                if (instance == null) {
+                    instance = new FigureList();
+                }
+            }
+        }
+        return instance;
+    }
 
     public void addFigure(Figure figure) {
         if (figures.contains(figure)) {
