@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FigureList {
     private static volatile FigureList instance;
-    private List<Figure> figures = new ArrayList<>();
+    private final List<Figure> figures = new ArrayList<>();
     private FigureList(){
 
     }
@@ -21,7 +21,6 @@ public class FigureList {
         }
         return instance;
     }
-
     public void addFigure(Figure figure) {
         if (figures.contains(figure)) {
             return;
@@ -32,14 +31,9 @@ public class FigureList {
     public List<Figure> getFigures() {
         return this.figures;
     }
-    public void deleteFigure(Figure figure){
-        this.figures.remove(figure);
-    }
-
     public void remove(Figure figure) {
         this.figures.remove(figure);
     }
-
     public void clear() {
         this.figures.clear();
     }

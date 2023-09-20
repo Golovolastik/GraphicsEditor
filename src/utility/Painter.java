@@ -9,12 +9,12 @@ import javafx.scene.shape.Polygon;
 
 public class Painter {
     private static volatile Painter instance;
-    private Pane pane;
+    private final Pane pane;
     private double lineWidth = 2;
     private Color borderColor = Color.BLACK;
-    private PopupPanel popupPanel;
+    private final PopupPanel popupPanel;
     private Polygon polygon;
-    private FigureList figureList;
+    private final FigureList figureList;
 
     private Painter(Pane pane){
         this.pane = pane;
@@ -38,18 +38,12 @@ public class Painter {
     public FigureList getFigureList() {
         return this.figureList;
     }
-//    public utility.Painter(Pane pane, FigureList figureList) {
-//        this.pane = pane;
-//        this.popupPanel = new PopupPanel(this.pane);
-//        this.figureList = figureList;
-//    }
     public void draw(Figure figure) {
         figure.init();
         this.polygon = figure.getPolygon();
         this.polygon = initParameters(figure);
         figure.setPolygon(this.polygon);
         this.pane.getChildren().add(figure.getPolygon());
-        //System.out.println(figure);
         this.figureList.addFigure(figure);
     }
 

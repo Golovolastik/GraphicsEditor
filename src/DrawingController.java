@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class DrawingController {
-    private Pane pane;
+    private final Pane pane;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
-    private FigureList figureList;
-    private Painter painter;
+    private final FigureList figureList;
+    private final Painter painter;
 
     public DrawingController(Pane pane, Painter painter) {
         this.pane = pane;
@@ -46,7 +46,6 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            //this.figureList.addFigure(figure);
             this.painter.draw(figure);
         }
     }
@@ -171,7 +170,6 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                //this.figureList.addFigure(currentFigure);
                 this.painter.draw(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
@@ -217,7 +215,6 @@ public class DrawingController {
         Button rectangleButton = createFigureButton(new javafx.scene.shape.Rectangle(25, 17));
         configureButton(rectangleButton, Rectangle.class);
         buttonArray.add(rectangleButton);
-
         // line
         Button lineButton = createFigureButton(new javafx.scene.shape.Line(15, 15, 1, 1));
         configureButton(lineButton, Line.class);
