@@ -49,7 +49,7 @@ public class Painter {
         this.polygon = initParameters(figure);
         figure.setPolygon(this.polygon);
         this.pane.getChildren().add(figure.getPolygon());
-        System.out.println(figure);
+        //System.out.println(figure);
         this.figureList.addFigure(figure);
     }
 
