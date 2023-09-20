@@ -5,22 +5,24 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import utility.FigureList;
+import utility.Painter;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class DrawingController {
-    private Pane pane;
+    private final Pane pane;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
-    private FigureList figureList;
-    private Painter painter;
+    private final FigureList figureList;
+    private final Painter painter;
 
     public DrawingController(Pane pane, Painter painter) {
         this.pane = pane;
         this.painter = painter;
-        this.figureList = new FigureList();
+        this.figureList = FigureList.getInstance();
     }
 
     private void clearBoard() {
@@ -44,8 +46,6 @@ public class DrawingController {
                 ((Line) figure).setEndX(xy[2]);
                 ((Line) figure).setEndY(xy[3]);
             }
-            //Painter painter = new Painter(this.pane);
-            this.figureList.addFigure(figure);
             this.painter.draw(figure);
         }
     }
@@ -130,8 +130,6 @@ public class DrawingController {
         alert.showAndWait();
     }
 
-
-
     private Button createFigureButton(javafx.scene.shape.Shape figure) {
         Button drawButton = new Button();
         drawButton.setPrefSize(50, 35);
@@ -142,19 +140,25 @@ public class DrawingController {
         return drawButton;
     }
 
-    public void configureButton(Button button, Figure figure) {
-        button.setOnMousePressed(event -> {
-            if (!drawMode) {
-                if (event.isShiftDown()) {
-                    enterFigurePoints(figure);
-                } else {
-                    drawMode = true; // Включаем режим рисования
-                    pane.setCursor(Cursor.CROSSHAIR);
-                    currentFigure = figure; // Устанавливаем текущую фигуру
-                }
-            }
-        });
-        handleDrawing();
+    public void configureButton(Button button, Class<? extends Figure> figureClass) throws Exception {
+            button.setOnMousePressed(event -> {
+                try {
+                    Figure figure = figureClass.newInstance();
+                    if (!drawMode) {
+                        if (event.isShiftDown()) {
+                            enterFigurePoints(figure);
+                        } else {
+                            drawMode = true; // Включаем режим рисования
+                            pane.setCursor(Cursor.CROSSHAIR);
+                            this.currentFigure = figure; // Устанавливаем текущую фигуру
+                        }
+                    }
+
+            } catch (Exception e) {
+            System.out.println(e);
+        }
+            });
+            handleDrawing();
     }
 
     private void handleDrawing() {
@@ -166,7 +170,6 @@ public class DrawingController {
             } else if (drawMode && currentFigure != null) {
                 currentFigure.setX(event.getX());
                 currentFigure.setY(event.getY());
-                this.figureList.addFigure(currentFigure);
                 this.painter.draw(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
@@ -181,7 +184,7 @@ public class DrawingController {
                 ((Line) currentFigure).setEndX(event.getX());
                 ((Line) currentFigure).setEndY(event.getY());
                 this.painter.draw(currentFigure);
-                this.figureList.addFigure(currentFigure);
+                //this.figureList.addFigure(currentFigure);
                 pane.setCursor(Cursor.DEFAULT);
                 drawMode = false;
                 lineDrawingMode = false; // Выключаем режим рисования линии после завершения
@@ -189,7 +192,7 @@ public class DrawingController {
         });
     }
 
-    public VBox createButtonPanel() {
+    public VBox createButtonPanel() throws Exception {
         VBox buttonPanel = new VBox(10);
         buttonPanel.setStyle("-fx-padding: 10px;");
 
@@ -202,20 +205,19 @@ public class DrawingController {
 
         // circle
         Button circleButton = createFigureButton(new javafx.scene.shape.Circle(10));
-        configureButton(circleButton, new Circle());
+        configureButton(circleButton, Circle.class);
         buttonArray.add(circleButton);
         // ellipse
         Button ellipseButton = createFigureButton(new javafx.scene.shape.Ellipse(15, 10));
-        configureButton(ellipseButton, new Ellipse());
+        configureButton(ellipseButton, Ellipse.class);
         buttonArray.add(ellipseButton);
         // rectangle
         Button rectangleButton = createFigureButton(new javafx.scene.shape.Rectangle(25, 17));
-        configureButton(rectangleButton, new Rectangle());
+        configureButton(rectangleButton, Rectangle.class);
         buttonArray.add(rectangleButton);
-
         // line
         Button lineButton = createFigureButton(new javafx.scene.shape.Line(15, 15, 1, 1));
-        configureButton(lineButton, new Line());
+        configureButton(lineButton, Line.class);
         buttonArray.add(lineButton);
         // parallelogram
         javafx.scene.shape.Polygon parallelogram = new javafx.scene.shape.Polygon();
@@ -224,13 +226,14 @@ public class DrawingController {
                 20.0, 18.0,
                 0.0, 18.0);
         Button parallelogramButton = createFigureButton(parallelogram);
-        configureButton(parallelogramButton, new Parallelogram());
+        configureButton(parallelogramButton, Parallelogram.class);
         buttonArray.add(parallelogramButton);
         // Размещаем кнопки на панели
         buttonPanel.getChildren().addAll(clearButton);
         for (Button button: buttonArray) {
             buttonPanel.getChildren().add(button);
         }
+
         return buttonPanel;
     }
 }

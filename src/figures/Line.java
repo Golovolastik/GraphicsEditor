@@ -1,5 +1,7 @@
 package figures;
 
+import java.util.HashMap;
+
 public class Line extends Figure {
     private double endX;
     private double endY;
@@ -69,5 +71,23 @@ public class Line extends Figure {
 
     public int getNumberOfPoints() {
         return this.points.getNumber_of_points();
+    }
+
+    @Override
+    public HashMap<String, Double> getParameters() {
+        HashMap<String, Double> params = new HashMap<>();
+        params.put("startX", this.x);
+        params.put("startY", this.y);
+        params.put("endX", this.endX);
+        params.put("endY", this.endY);
+        return params;
+    }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.x = params.get("startX");
+        this.y = params.get("startY");
+        this.endX = params.get("endX");
+        this.endY = params.get("endY");
     }
 }

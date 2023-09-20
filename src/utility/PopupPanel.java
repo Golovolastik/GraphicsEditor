@@ -10,9 +10,10 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Popup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
-public class PopupPanel implements Mover {
+public class PopupPanel implements Mover, Sizer {
     private ArrayList<Button> buttons;
     private Pane pane;
     private MouseEvent event;
@@ -37,14 +38,8 @@ public class PopupPanel implements Mover {
     public void showPopup(MouseEvent event, Figure figure) {
         this.figure = figure;
         this.polygon = this.figure.getPolygon();
-        //this.figure = figure;
-        //this.popup.hide();
-        //this.pane.getChildren().remove(this.panel);
         getEvent(event);
-        //this.panel.setLayoutX(this.event.getX());
-        //this.panel.setLayoutY(this.event.getY());
         this.panel.toFront();
-        //this.pane.getChildren().add(this.panel);
         this.popup.setX(this.event.getX());
         this.popup.setX(this.event.getY());
         this.popup.show(this.pane, this.event.getScreenX(), this.event.getScreenY());
@@ -55,9 +50,9 @@ public class PopupPanel implements Mover {
         Button close = new Button("Close");
         close.setOnAction(e -> {
             this.popup.hide();
-            //this.pane.getChildren().remove(this.panel);
         });
         buttons.add(close);
+        buttons.add(resizeButton());
         buttons.add(moveButton());
         this.buttons = buttons;
     }
@@ -82,6 +77,17 @@ public class PopupPanel implements Mover {
             }
         });
         return move;
+    }
+
+    private Button resizeButton() {
+        Button resize = new Button("Resize");
+        resize.setOnAction(e -> {
+            if (this.figure != null) {
+                //this.figure.setFill(Color.AQUA);
+                changeParameters();
+            }
+        });
+        return resize;
     }
 
     private Dialog<Double[]> createMoveDialog() {
@@ -213,4 +219,66 @@ public class PopupPanel implements Mover {
     public Figure getFigure() {
         return this.figure;
     }
+
+    @Override
+    public void changeParameters() {
+        HashMap<String, Double> params = this.figure.getParameters();
+        createResizeDialog(params);
+    }
+    private void createResizeDialog(HashMap<String, Double> params) {
+        Dialog<Double[]> dialog = new Dialog<>();
+        dialog.setTitle("Resize");
+        GridPane grid = new GridPane();
+        int counter = 0;
+        ArrayList<Label> labels = new ArrayList<>();
+        ArrayList<TextField> fields = new ArrayList<>();
+        for (String param: params.keySet()) {
+            Label label = new Label(param);
+            grid.add(label, 0, counter);
+            labels.add(label);
+            TextField field = new TextField(params.get(param).toString());
+            fields.add(field);
+            grid.add(field, 1, counter);
+            counter++;
+        }
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == ButtonType.OK) {
+                double[] values = handleResizeButtonClick(fields);
+                if (values == null) {
+                    return null;
+                }
+                HashMap<String, Double> result = new HashMap<>();
+                for (int i=0; i<labels.size(); i++){
+                    result.put(labels.get(i).getText(), values[i]);
+                }
+                this.figure.setParameters(result);
+                this.pane.getChildren().remove(this.polygon);
+                this.figure.init();
+                this.polygon.getPoints().clear();
+                this.polygon.getPoints().addAll(this.figure.getPoints());
+                this.figure.setPolygon(this.polygon);
+                this.pane.getChildren().add(this.figure.getPolygon());
+            }
+            return null;
+        });
+        dialog.showAndWait();
+    }
+    private double[] handleResizeButtonClick(ArrayList<TextField> fields) {
+        try {
+            double[] params = new double[fields.size()];
+            int count = 0;
+            for (TextField param: fields) {
+                    double value = Double.parseDouble(param.getText());
+                    params[count] = value;
+                    count++;
+                }
+            return  params;
+        } catch (NumberFormatException e) {
+            showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
+            return null;
+        }
+    }
+
 }

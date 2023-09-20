@@ -1,5 +1,7 @@
 package figures;
 
+import java.util.HashMap;
+
 public class Ellipse extends Figure {
     private double radiusX;
     private double radiusY;
@@ -49,5 +51,18 @@ public class Ellipse extends Figure {
 
     public int getNumberOfPoints() {
         return this.points.getNumber_of_points();
+    }
+
+    @Override
+    public HashMap<String, Double> getParameters() {
+        HashMap<String, Double> params = new HashMap<>();
+        params.put("radiusX", this.radiusX);
+        params.put("radiusY", this.radiusY);
+        return params;    }
+
+    @Override
+    public void setParameters(HashMap<String, Double> params) {
+        this.radiusX = params.get("radiusX");
+        this.radiusY = params.get("radiusY");
     }
 }

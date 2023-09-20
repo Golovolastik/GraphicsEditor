@@ -2,7 +2,10 @@ package figures;
 
 import javafx.scene.shape.Polygon;
 
-public abstract class Figure {
+import java.io.Serializable;
+import java.util.HashMap;
+
+public abstract class Figure implements Serializable {
     protected double x;
     protected double y;
     private PointsSet points;
@@ -24,7 +27,9 @@ public abstract class Figure {
         this.polygon = polygon;
         this.points.setPolygon(this.polygon);
     }
+    public void delete() {
 
+    }
 
     public abstract void init();
     public abstract Double[] getPoints();
@@ -60,4 +65,6 @@ public abstract class Figure {
     }
 
     public abstract int getNumberOfPoints();
+    public abstract HashMap<String, Double> getParameters();
+    public abstract void setParameters(HashMap<String, Double> params);
 }
