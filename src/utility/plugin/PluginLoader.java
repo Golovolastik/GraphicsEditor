@@ -1,10 +1,52 @@
 package utility.plugin;
 
-import javafx.scene.layout.HBox;
+import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import utility.DrawingController;
+import utility.FigureButtons;
+import utility.Painter;
+
 
 public class PluginLoader {
-    public void createButtonPanel() {
-        HBox panel = new HBox();
+    private Group root;
+    private Pane pane;
+    public PluginLoader(Group root, Pane pane){
+        this.root = root;
+        this.pane = pane;
+    }
+    public void loadPlugin() throws Exception {
+        addStarButton();
+    }
+    private Button createStarButton() throws Exception {
+        Button star = new Button();
+        star.setPrefSize(50, 35);
+        Polygon icon = createStarIcon();
+        star.setGraphic(icon);
+        DrawingController controller = DrawingController.getInstance(this.pane, Painter.getInstance(this.pane));
+        controller.configureButton(star, Star.class);
+        return star;
+    }
+    private Polygon createStarIcon() {
+        Star pic = new Star(15, 15, 15);
+        pic.init();
+        Polygon star = new Polygon();
+        star.setFill(Color.WHITE);
+        star.setStroke(Color.BLACK);
+        star.getPoints().addAll(pic.getPoints());
+        return star;
+    }
+    private void addStarButton() throws Exception {
+        Button star = createStarButton();
+        FigureButtons buttons = FigureButtons.getInstance();
+        DrawingController controller = DrawingController.getInstance(this.pane, Painter.getInstance(this.pane));
+        this.root.getChildren().remove(controller.getButtonPanel());
+        buttons.addButton(star);
 
+        VBox newPanel = controller.createButtonPanel();
+        this.root.getChildren().add(newPanel);
     }
 }

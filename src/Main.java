@@ -7,10 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import utility.FigureList;
-import utility.Painter;
-import utility.PluginChooser;
-import utility.Serializer;
+import utility.*;
 
 public class Main extends Application {
     @Override
@@ -23,10 +20,10 @@ public class Main extends Application {
         FigureList figureList = FigureList.getInstance();
         Serializer serializer = new Serializer(board);
         Painter painter = Painter.getInstance(board);
-        DrawingController controller = new DrawingController(board, painter);
-        VBox buttonPanel = controller.createButtonPanel();
+        DrawingController controller = DrawingController.getInstance(board, painter);
+        VBox buttonPanel = controller.getButtonPanel();
         HBox openSavePanel = serializer.createButtonPanel();
-        Button plugin = new PluginChooser().createChoosePluginButton(primaryStage);
+        Button plugin = new PluginChooser().createChoosePluginButton(primaryStage, root, board);
 
         root.getChildren().addAll(board, buttonPanel, plugin, openSavePanel);
 

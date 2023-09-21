@@ -11,18 +11,15 @@ public class Star extends Figure {
     private Polygon polygon = new Polygon();
     private double radius = 90;
 
-    public Star(double x, double y) {
+    public Star(double x, double y, double radius) {
         this.x = x;
         this.y = y;
+        this.radius = radius;
         this.points = new PointsSet();
     }
     public Star() {
         super(0, 0);
         this.points = new PointsSet();
-    }
-
-    public void hello() {
-        System.out.println("hello");
     }
 
     @Override

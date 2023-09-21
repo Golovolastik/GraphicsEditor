@@ -1,3 +1,5 @@
+package utility;
+
 import figures.*;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -5,24 +7,36 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import utility.FigureList;
-import utility.Painter;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class DrawingController {
+    private static DrawingController instance;
     private final Pane pane;
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
     private final FigureList figureList;
     private final Painter painter;
+    private VBox buttonPanel;
 
-    public DrawingController(Pane pane, Painter painter) {
+    private DrawingController(Pane pane, Painter painter) throws Exception {
         this.pane = pane;
         this.painter = painter;
         this.figureList = FigureList.getInstance();
+        setStdButtons();
+        this.buttonPanel = createButtonPanel();
+    }
+    public static DrawingController getInstance(Pane pane, Painter painter) throws Exception {
+        if (instance == null) {
+            synchronized (Painter.class) {
+                if (instance == null) {
+                    instance = new DrawingController(pane, painter);
+                }
+            }
+        }
+        return instance;
     }
 
     private void clearBoard() {
@@ -191,34 +205,25 @@ public class DrawingController {
             }
         });
     }
-
-    public VBox createButtonPanel() throws Exception {
-        VBox buttonPanel = new VBox(10);
-        buttonPanel.setStyle("-fx-padding: 10px;");
-
-        ArrayList<Button> buttonArray = new ArrayList<>();
-
-        // Добавляем кнопку для очистки холста
-        Button clearButton = new Button("Clear");
-        clearButton.setPrefSize(50, 35);
-        clearButton.setOnAction(e -> clearBoard());
-
+    private void setStdButtons() throws Exception {
+        FigureButtons buttonArray = FigureButtons.getInstance();
+        //buttonArray.clear();
         // circle
         Button circleButton = createFigureButton(new javafx.scene.shape.Circle(10));
         configureButton(circleButton, Circle.class);
-        buttonArray.add(circleButton);
+        buttonArray.addButton(circleButton);
         // ellipse
         Button ellipseButton = createFigureButton(new javafx.scene.shape.Ellipse(15, 10));
         configureButton(ellipseButton, Ellipse.class);
-        buttonArray.add(ellipseButton);
+        buttonArray.addButton(ellipseButton);
         // rectangle
         Button rectangleButton = createFigureButton(new javafx.scene.shape.Rectangle(25, 17));
         configureButton(rectangleButton, Rectangle.class);
-        buttonArray.add(rectangleButton);
+        buttonArray.addButton(rectangleButton);
         // line
         Button lineButton = createFigureButton(new javafx.scene.shape.Line(15, 15, 1, 1));
         configureButton(lineButton, Line.class);
-        buttonArray.add(lineButton);
+        buttonArray.addButton(lineButton);
         // parallelogram
         javafx.scene.shape.Polygon parallelogram = new javafx.scene.shape.Polygon();
         parallelogram.getPoints().addAll(5.0, 2.0,
@@ -227,13 +232,29 @@ public class DrawingController {
                 0.0, 18.0);
         Button parallelogramButton = createFigureButton(parallelogram);
         configureButton(parallelogramButton, Parallelogram.class);
-        buttonArray.add(parallelogramButton);
+        buttonArray.addButton(parallelogramButton);
+
+    }
+
+    public VBox createButtonPanel() throws Exception {
+        VBox buttonPanel = new VBox(10);
+        buttonPanel.setStyle("-fx-padding: 10px;");
+
+        FigureButtons buttonArray = FigureButtons.getInstance();
+
+        // Добавляем кнопку для очистки холста
+        Button clearButton = new Button("Clear");
+        clearButton.setPrefSize(50, 35);
+        clearButton.setOnAction(e -> clearBoard());
         // Размещаем кнопки на панели
         buttonPanel.getChildren().addAll(clearButton);
-        for (Button button: buttonArray) {
+        buttonArray.printButtons();
+        for (Button button: buttonArray.getButtonArray()) {
             buttonPanel.getChildren().add(button);
         }
-
         return buttonPanel;
+    }
+    public VBox getButtonPanel(){
+        return this.buttonPanel;
     }
 }
