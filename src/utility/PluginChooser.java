@@ -18,6 +18,7 @@ public class PluginChooser {
         this.chooseButton.setOnAction(e -> {
             try {
                 loadPluginButtonClicked();
+                this.root.getChildren().remove(this.chooseButton);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
