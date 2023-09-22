@@ -248,7 +248,6 @@ public class DrawingController {
         clearButton.setOnAction(e -> clearBoard());
         // Размещаем кнопки на панели
         buttonPanel.getChildren().addAll(clearButton);
-        buttonArray.printButtons();
         for (Button button: buttonArray.getButtonArray()) {
             buttonPanel.getChildren().add(button);
         }

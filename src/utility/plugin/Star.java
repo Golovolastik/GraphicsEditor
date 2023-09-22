@@ -58,11 +58,13 @@ public class Star extends Figure {
 
     @Override
     public HashMap<String, Double> getParameters() {
-        return null;
+        HashMap<String, Double> params = new HashMap<>();
+        params.put("radius", this.radius);
+        return params;
     }
 
     @Override
     public void setParameters(HashMap<String, Double> params) {
-
+        this.radius = params.get("radius");
     }
 }
