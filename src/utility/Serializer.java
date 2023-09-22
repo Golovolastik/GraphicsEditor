@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Serializer {
@@ -95,47 +96,44 @@ public class Serializer {
         File file = chooseFile();
         String content = readFile(file);
         //System.out.println(content);
-        extractFigures(content);
+        ArrayList<String> figures = extractFigures(content);
+        initFigureList(figures);
         this.painter.drawAll();
     }
-    private void extractFigures(String content) {
-        HashMap<String, Double> params = new HashMap<>();
-
+    private ArrayList<String> extractFigures(String content) {
+        ArrayList<String> figures = new ArrayList<>();
         String[] lines = content.split("\n");
-        for (String line : lines) {
-            if (line.startsWith("figures.")) {
-                // Создаем новый объект класса на основе имени
-                try {
-                    String className = line.trim();
-                    Class<?> obj = Class.forName(className);
-                    Figure figure = (Figure) obj.getDeclaredConstructor().newInstance();
-                    this.list.addFigure(figure);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        String temp = new String();
+        for (String line: lines) {
+            if (line.equals("-1")) {
+                figures.add(temp);
+                temp = "";
+                continue;
+            }
+            temp = temp.concat(line + "\n");
+        }
+        return figures;
+    }
+    private void initFigureList(ArrayList<String> figures) {
+        for (String figureString: figures) {
+            String[] lines = figureString.split("\n");
+            try {
+                String className = lines[0].trim();
+                Class<?> obj = Class.forName(className);
+                Figure figure = (Figure) obj.getDeclaredConstructor().newInstance();
+                figure.setX(Double.parseDouble(lines[1].split(" ")[1]));
+                figure.setY(Double.parseDouble(lines[2].split(" ")[1]));
+                HashMap<String, Double> params = new HashMap<>();
+                for (int i=3; i<lines.length; i++){
+                    String[] paramsString = lines[i].split(" ");
+                    params.put(paramsString[0], Double.parseDouble(paramsString[1]));
                 }
-            } else if (line.startsWith("x")) {
-                String[] parts = line.split(" ");
-                System.out.println("x" + parts[1]);
-                this.list.getFigures().get(this.list.getFigures().size() - 1).setX(Double.parseDouble(parts[1]));
-            } else if (line.startsWith("y")) {
-                String[] parts = line.split(" ");
-                System.out.println("y" + parts[1]);
-                this.list.getFigures().get(this.list.getFigures().size() - 1).setY(Double.parseDouble(parts[1]));
-            } else if (!line.equals("-1")) {
-                // Разбиваем строку на имя параметра и значение параметра
-                String[] parts = line.split(" ");
-                if (parts.length == 2) {
-                    String paramName = parts[0];
-                    double paramValue = Double.parseDouble(parts[1]);
-                    params.put(paramName, paramValue);
-                }
-            } else {
-                // Это конец фигуры, устанавливаем параметры фигуры и очищаем HashMap
-                    this.list.getFigures().get(this.list.getFigures().size() - 1).setParameters(params);
-                    params.clear();
+                figure.setParameters(params);
+                this.list.addFigure(figure);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-
     }
     private void clearBoard(){
         this.pane.getChildren().clear();
