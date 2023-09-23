@@ -30,7 +30,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
 
-
         Circle circle = new Circle(400, 300);
         circle.setRadius(150);
         figureList.addFigure(circle);
@@ -38,7 +37,6 @@ public class Main extends Application {
         figureList.addFigure(new Rectangle(350, 450));
         figureList.addFigure(new Parallelogram(150, 350));
         figureList.addFigure(new Line(150, 250, 400, 50));
-        //figureList.addFigure(new Star(250, 250));
 
         painter.drawAll();
         primaryStage.show();
