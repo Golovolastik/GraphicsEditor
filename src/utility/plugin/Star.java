@@ -2,6 +2,7 @@ package utility.plugin;
 
 import figures.Figure;
 import figures.PointsSet;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 import java.util.HashMap;
@@ -37,6 +38,12 @@ public class Star extends Figure {
         this.points.setX_axis(xAxis);
         this.points.setY_axis(yAxis);
         this.points.initPoints();
+        Polygon figure = new Polygon();
+        figure.getPoints().addAll(this.points.getPoints());
+        figure.setFill(Color.rgb(255, 255, 255, 0));
+        figure.setStroke(Color.BLACK);
+        figure.setStrokeWidth(2);
+        this.setPolygon(figure);
     }
 
     public double getRadius() {

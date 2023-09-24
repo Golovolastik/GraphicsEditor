@@ -40,9 +40,7 @@ public class Painter {
     }
     public void draw(Figure figure) {
         figure.init();
-        this.polygon = figure.getPolygon();
-        this.polygon = initParameters(figure);
-        figure.setPolygon(this.polygon);
+        initParameters(figure);
         this.pane.getChildren().add(figure.getPolygon());
         this.figureList.addFigure(figure);
     }
@@ -53,12 +51,8 @@ public class Painter {
         }
     }
 
-    private Polygon initParameters(Figure figure){
-        this.polygon = new Polygon();
-        this.polygon.getPoints().addAll(figure.getPoints());
-        this.polygon.setFill(Color.rgb(255, 255, 255, 0));
-        this.polygon.setStroke(Color.BLACK);
-        this.polygon.setStrokeWidth(this.lineWidth);
+    private void initParameters(Figure figure){
+        this.polygon = figure.getPolygon();
         this.polygon.setOnMouseClicked(e -> {
             if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
                 return;
@@ -74,8 +68,6 @@ public class Painter {
             this.popupPanel.showPopup(e, figure);
             this.popupPanel.toFront();
         });
-
-        return this.polygon;
     }
 
     public void setLineWidth(double lineWidth) {

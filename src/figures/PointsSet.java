@@ -23,6 +23,7 @@ public class PointsSet {
         }
         this.points = combinedArray;
     }
+
     public Polygon getPolygon() {
         return this.figure;
     }

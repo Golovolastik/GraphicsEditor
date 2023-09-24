@@ -1,5 +1,8 @@
 package figures;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+
 import java.util.HashMap;
 
 public class Parallelogram extends Figure {
@@ -40,6 +43,12 @@ public class Parallelogram extends Figure {
         this.points.setX_axis(new double[]{x1, x2, x3, x4});
         this.points.setY_axis(new double[]{y1, y2, y3, y4});
         this.points.initPoints();
+        Polygon figure = new Polygon();
+        figure.getPoints().addAll(this.points.getPoints());
+        figure.setFill(Color.rgb(255, 255, 255, 0));
+        figure.setStroke(Color.BLACK);
+        figure.setStrokeWidth(2);
+        this.setPolygon(figure);
 
     }
     public Double[] getPoints() {

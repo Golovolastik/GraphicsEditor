@@ -25,6 +25,7 @@ public abstract class Figure implements Serializable {
     }
     public void setPolygon(Polygon polygon){
         this.polygon = polygon;
+        //this.polygon.
         this.points.setPolygon(this.polygon);
     }
     public void delete() {

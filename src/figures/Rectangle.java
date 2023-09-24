@@ -1,5 +1,8 @@
 package figures;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+
 import java.util.HashMap;
 
 public class Rectangle extends Figure  {
@@ -25,6 +28,12 @@ public class Rectangle extends Figure  {
         this.points.setX_axis(new double[]{this.x, this.x, this.x+width, this.x+width});
         this.points.setY_axis(new double[]{this.y, this.y+height, this.y+height, this.y});
         this.points.initPoints();
+        Polygon figure = new Polygon();
+        figure.getPoints().addAll(this.points.getPoints());
+        figure.setFill(Color.rgb(255, 255, 255, 0));
+        figure.setStroke(Color.BLACK);
+        figure.setStrokeWidth(2);
+        this.setPolygon(figure);
     }
     public Double[] getPoints() {
         return this.points.getPoints();
