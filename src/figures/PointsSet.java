@@ -7,10 +7,9 @@ public class PointsSet {
     private double[] xAxis;
     private double[] yAxis;
     private int number_of_points;
-    private Polygon figure;
+    private Polygon figure = new Polygon();
 
     public void initPoints(){
-        //Double[] points = new Double[this.number_of_points * 2];
         if (xAxis.length != yAxis.length) {
             throw new IllegalArgumentException("Different length of arrays");
         }

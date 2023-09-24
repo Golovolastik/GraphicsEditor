@@ -10,8 +10,6 @@ import javafx.scene.shape.Polygon;
 public class Painter {
     private static volatile Painter instance;
     private final Pane pane;
-    private double lineWidth = 2;
-    private Color borderColor = Color.BLACK;
     private final PopupPanel popupPanel;
     private Polygon polygon;
     private final FigureList figureList;
@@ -54,6 +52,8 @@ public class Painter {
     private void initParameters(Figure figure){
         this.polygon = figure.getPolygon();
         this.polygon.setOnMouseClicked(e -> {
+            figure.setBorderColor(Color.BLUE);
+            this.polygon = figure.getPolygon();
             if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
                 return;
             }
@@ -63,18 +63,8 @@ public class Painter {
                 this.figureList.remove(figure);
                 return;
             }
-            this.polygon = figure.getPolygon();
-            figure.setPolygon(this.polygon);
             this.popupPanel.showPopup(e, figure);
             this.popupPanel.toFront();
         });
-    }
-
-    public void setLineWidth(double lineWidth) {
-        this.lineWidth = lineWidth;
-    }
-
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
     }
 }

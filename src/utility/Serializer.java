@@ -4,6 +4,7 @@ import figures.Figure;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -23,9 +24,6 @@ public class Serializer {
         this.list = FigureList.getInstance();
         this.pane = pane;
         this.painter = Painter.getInstance(this.pane);
-    }
-    public void test() {
-        save();
     }
     public void save(){
         String filename = genFileName();
@@ -71,6 +69,7 @@ public class Serializer {
         String result = new String();
         String name = figure.getClass().getName() + "\n";
         result = result.concat(name);
+        result = result.concat(figure.getBorderColor().toString() + "\n");
         double x = figure.getX();
         double y = figure.getY();
         result = result.concat("x " + Double.toString(x) + "\n");
@@ -95,7 +94,6 @@ public class Serializer {
         clearBoard();
         File file = chooseFile();
         String content = readFile(file);
-        //System.out.println(content);
         ArrayList<String> figures = extractFigures(content);
         initFigureList(figures);
         this.painter.drawAll();
@@ -121,10 +119,11 @@ public class Serializer {
                 String className = lines[0].trim();
                 Class<?> obj = Class.forName(className);
                 Figure figure = (Figure) obj.getDeclaredConstructor().newInstance();
-                figure.setX(Double.parseDouble(lines[1].split(" ")[1]));
-                figure.setY(Double.parseDouble(lines[2].split(" ")[1]));
+                figure.setBorderColor(Color.valueOf(lines[1]));
+                figure.setX(Double.parseDouble(lines[2].split(" ")[1]));
+                figure.setY(Double.parseDouble(lines[3].split(" ")[1]));
                 HashMap<String, Double> params = new HashMap<>();
-                for (int i=3; i<lines.length; i++){
+                for (int i=4; i<lines.length; i++){
                     String[] paramsString = lines[i].split(" ");
                     params.put(paramsString[0], Double.parseDouble(paramsString[1]));
                 }

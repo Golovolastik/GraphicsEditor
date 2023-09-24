@@ -42,10 +42,10 @@ public class Circle extends Figure {
         this.points.setX_axis(xAxis);
         this.points.setY_axis(yAxis);
         this.points.initPoints();
-        Polygon figure = new Polygon();
+        Polygon figure = this.points.getPolygon();
         figure.getPoints().addAll(this.points.getPoints());
         figure.setFill(Color.rgb(255, 255, 255, 0));
-        figure.setStroke(Color.BLACK);
+        figure.setStroke(this.getBorderColor());
         figure.setStrokeWidth(2);
         this.setPolygon(figure);
     }
@@ -78,3 +78,4 @@ public class Circle extends Figure {
         this.radius = params.get("radius");
     }
 }
+

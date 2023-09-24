@@ -28,10 +28,10 @@ public class Rectangle extends Figure  {
         this.points.setX_axis(new double[]{this.x, this.x, this.x+width, this.x+width});
         this.points.setY_axis(new double[]{this.y, this.y+height, this.y+height, this.y});
         this.points.initPoints();
-        Polygon figure = new Polygon();
+        Polygon figure = this.points.getPolygon();
         figure.getPoints().addAll(this.points.getPoints());
         figure.setFill(Color.rgb(255, 255, 255, 0));
-        figure.setStroke(Color.BLACK);
+        figure.setStroke(this.getBorderColor());
         figure.setStrokeWidth(2);
         this.setPolygon(figure);
     }

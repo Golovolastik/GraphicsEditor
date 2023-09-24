@@ -1,5 +1,6 @@
 package figures;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ public abstract class Figure implements Serializable {
     protected double y;
     private PointsSet points;
     private Polygon polygon = new Polygon();
+    private Color borderColor = Color.BLACK;
 
     public Figure(double x, double y) {
         this.x = x;
@@ -25,7 +27,6 @@ public abstract class Figure implements Serializable {
     }
     public void setPolygon(Polygon polygon){
         this.polygon = polygon;
-        //this.polygon.
         this.points.setPolygon(this.polygon);
     }
     public void delete() {
@@ -68,4 +69,15 @@ public abstract class Figure implements Serializable {
     public abstract int getNumberOfPoints();
     public abstract HashMap<String, Double> getParameters();
     public abstract void setParameters(HashMap<String, Double> params);
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        Polygon polygon = this.points.getPolygon();
+        polygon.setStroke(borderColor);
+        setPolygon(polygon);
+        this.borderColor = borderColor;
+    }
 }
