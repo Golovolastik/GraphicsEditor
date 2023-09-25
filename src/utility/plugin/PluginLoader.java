@@ -9,6 +9,7 @@ import javafx.scene.shape.Polygon;
 import utility.DrawingController;
 import utility.FigureButtons;
 import utility.Painter;
+import utility.PopupPanel;
 
 
 public class PluginLoader {
@@ -20,6 +21,7 @@ public class PluginLoader {
     }
     public void loadPlugin() throws Exception {
         addStarButton();
+        addColorButton();
     }
     private Button createStarButton() throws Exception {
         Button star = new Button();
@@ -48,5 +50,11 @@ public class PluginLoader {
 
         VBox newPanel = controller.createButtonPanel();
         this.root.getChildren().add(newPanel);
+    }
+    private void addColorButton() {
+        ColorChanger changer = new ColorChanger();
+        Button changeColor = changer.changeColorButton();
+        PopupPanel popup = PopupPanel.getInstance(this.pane);
+        popup.addButton(changeColor);
     }
 }

@@ -3,7 +3,6 @@ package utility;
 import figures.Figure;
 import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 
@@ -16,7 +15,7 @@ public class Painter {
 
     private Painter(Pane pane){
         this.pane = pane;
-        this.popupPanel = new PopupPanel(this.pane);
+        this.popupPanel = PopupPanel.getInstance(this.pane);
         this.figureList = FigureList.getInstance();
     }
     public static Painter getInstance(Pane pane) {
@@ -52,7 +51,7 @@ public class Painter {
     private void initParameters(Figure figure){
         this.polygon = figure.getPolygon();
         this.polygon.setOnMouseClicked(e -> {
-            figure.setBorderColor(Color.BLUE);
+            //figure.setBorderColor(Color.BLUE);
             this.polygon = figure.getPolygon();
             if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
                 return;

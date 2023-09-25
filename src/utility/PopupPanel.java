@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class PopupPanel implements Mover, Sizer {
+    private static PopupPanel instance;
     private ArrayList<Button> buttons;
     private Pane pane;
     private MouseEvent event;
@@ -22,20 +23,36 @@ public class PopupPanel implements Mover, Sizer {
     private Figure figure;
     private Polygon polygon;
 
-
-    public PopupPanel(Pane pane){
+    private PopupPanel(Pane pane) {
         this.pane = pane;
-        init();
-
-    }
-    private void init(){
         stdButtons();
+        init();
+    }
+    public static PopupPanel getInstance(Pane pane) {
+        if (instance == null) {
+            synchronized (PopupPanel.class) {
+                if (instance == null) {
+                    instance = new PopupPanel(pane);
+                }
+            }
+        }
+        return instance;
+    }
+//    public PopupPanel(Pane pane){
+//        this.pane = pane;
+//        init();
+//
+//    }
+    private void init(){
+        this.popup.getContent().remove(this.panel);
+        this.panel.getChildren().clear();
         this.panel.getChildren().addAll(this.buttons);
         this.popup.getContent().add(this.panel);
 
     }
 
     public void showPopup(MouseEvent event, Figure figure) {
+        init();
         this.figure = figure;
         this.polygon = this.figure.getPolygon();
         getEvent(event);
@@ -54,6 +71,9 @@ public class PopupPanel implements Mover, Sizer {
         buttons.add(close);
         buttons.add(resizeButton());
         buttons.add(moveButton());
+        for (Button b: buttons) {
+            b.setPrefSize(60, 30);
+        }
         this.buttons = buttons;
     }
 
@@ -61,7 +81,7 @@ public class PopupPanel implements Mover, Sizer {
         return this.buttons;
     }
     public void addButton(Button button) {
-
+        this.buttons.add(button);
     }
 
     public void getEvent(MouseEvent event) {
@@ -83,7 +103,6 @@ public class PopupPanel implements Mover, Sizer {
         Button resize = new Button("Resize");
         resize.setOnAction(e -> {
             if (this.figure != null) {
-                //this.figure.setFill(Color.AQUA);
                 changeParameters();
             }
         });
