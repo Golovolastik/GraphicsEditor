@@ -51,9 +51,8 @@ public class PopupPanel implements Mover, Sizer {
 
     }
 
-    public void showPopup(MouseEvent event, Figure figure) {
+    public void showPopup(MouseEvent event) {
         init();
-        this.figure = figure;
         this.polygon = this.figure.getPolygon();
         getEvent(event);
         this.panel.toFront();
@@ -234,11 +233,6 @@ public class PopupPanel implements Mover, Sizer {
     public void moveOnY(double distance) {
         this.figure.setY(this.figure.getY() + distance);
     }
-
-    public Figure getFigure() {
-        return this.figure;
-    }
-
     @Override
     public void changeParameters() {
         HashMap<String, Double> params = this.figure.getParameters();
@@ -298,6 +292,13 @@ public class PopupPanel implements Mover, Sizer {
             showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
             return null;
         }
+    }
+
+    public void setFigure(Figure figure) {
+        this.figure = figure;
+    }
+    public Figure getFigure() {
+        return this.figure;
     }
 
 }

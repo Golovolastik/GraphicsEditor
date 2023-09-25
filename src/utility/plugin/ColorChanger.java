@@ -1,17 +1,26 @@
 package utility.plugin;
 
 
+import figures.Figure;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import utility.PopupPanel;
 
 public class ColorChanger {
-    private Button changeColor;
+    private Button changeColorButton;
+    private Figure figure;
     public Button changeColorButton() {
         Button changeColor = new Button();
         changeColor.setPrefSize(60, 30);
         changeColor.setGraphic(createIcon());
-        this.changeColor = changeColor;
+        changeColor.setOnAction(e -> {
+            this.figure = PopupPanel.getInstance(new Pane()).getFigure();
+            this.figure.setBorderColor(Color.CRIMSON);
+        });
+
+        this.changeColorButton = changeColor;
 
         return changeColor;
     }

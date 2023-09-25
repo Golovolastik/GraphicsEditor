@@ -62,7 +62,8 @@ public class Painter {
                 this.figureList.remove(figure);
                 return;
             }
-            this.popupPanel.showPopup(e, figure);
+            this.popupPanel.setFigure(figure);
+            this.popupPanel.showPopup(e);
             this.popupPanel.toFront();
         });
     }
