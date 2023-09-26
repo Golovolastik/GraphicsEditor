@@ -22,6 +22,7 @@ public class PluginLoader {
     public void loadPlugin() throws Exception {
         addStarButton();
         addColorButton();
+        addScaleButton();
     }
     private Button createStarButton() throws Exception {
         Button star = new Button();
@@ -56,5 +57,12 @@ public class PluginLoader {
         Button changeColor = changer.changeColorButton();
         PopupPanel popup = PopupPanel.getInstance(this.pane);
         popup.addButton(changeColor);
+    }
+
+    private void addScaleButton() {
+        Scaler changer = new Scaler();
+        Button scale = changer.createScaledButton();
+        PopupPanel popup = PopupPanel.getInstance(this.pane);
+        popup.addButton(scale);
     }
 }
