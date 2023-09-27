@@ -14,19 +14,22 @@ public class Scaler {
     private boolean drawMode = false;
     private boolean lineDrawingMode = false;
     private Figure currentFigure;
+    public Scaler(Pane pane){
+        this.pane = pane;
+        this.painter = Painter.getInstance(this.pane);
+    }
     public Button createScaledButton() {
         Button scaleButton = new Button("Scale");
         scaleButton.setPrefSize(60, 30);
         scaleButton.setOnMouseClicked(e -> {
-            this.figure = PopupPanel.getInstance(new Pane()).getFigure();
+            PopupPanel popupPanel = PopupPanel.getInstance(this.pane);
+            this.figure = popupPanel.getFigure();
+            popupPanel.getPopup().hide();
             try {
                 if (!drawMode) {
                     Figure newFigure = this.figure.getClass().getDeclaredConstructor().newInstance();
                     this.currentFigure = newFigure;
-                    drawMode = true; // Включаем режим рисования
-                    this.painter = Painter.getInstance(new Pane());
-                    this.pane = painter.getPane();
-                    pane.setCursor(Cursor.CROSSHAIR);
+                    drawMode = true;
                 }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -38,13 +41,13 @@ public class Scaler {
     }
 
     private void handleDrawing() {
-        System.out.println("hello!");
+        this.pane.setCursor(Cursor.CROSSHAIR);
         pane.setOnMousePressed(event -> {
           if (drawMode && currentFigure != null) {
               this.currentFigure.setX(event.getX());
               this.currentFigure.setY(event.getY());
               this.painter.draw(currentFigure);
-              pane.setCursor(Cursor.DEFAULT);
+              this.pane.setCursor(Cursor.DEFAULT);
               drawMode = false;
             }
         });

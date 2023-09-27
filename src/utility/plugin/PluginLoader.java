@@ -60,7 +60,7 @@ public class PluginLoader {
     }
 
     private void addScaleButton() {
-        Scaler changer = new Scaler();
+        Scaler changer = new Scaler(this.pane);
         Button scale = changer.createScaledButton();
         PopupPanel popup = PopupPanel.getInstance(this.pane);
         popup.addButton(scale);

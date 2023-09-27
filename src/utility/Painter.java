@@ -51,7 +51,6 @@ public class Painter {
     private void initParameters(Figure figure){
         this.polygon = figure.getPolygon();
         this.polygon.setOnMouseClicked(e -> {
-            //figure.setBorderColor(Color.BLUE);
             this.polygon = figure.getPolygon();
             if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
                 return;

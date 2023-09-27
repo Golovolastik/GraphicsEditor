@@ -38,11 +38,6 @@ public class PopupPanel implements Mover, Sizer {
         }
         return instance;
     }
-//    public PopupPanel(Pane pane){
-//        this.pane = pane;
-//        init();
-//
-//    }
     private void init(){
         this.popup.getContent().remove(this.panel);
         this.panel.getChildren().clear();
