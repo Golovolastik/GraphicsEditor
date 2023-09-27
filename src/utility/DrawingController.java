@@ -157,7 +157,7 @@ public class DrawingController {
     public void configureButton(Button button, Class<? extends Figure> figureClass) throws Exception {
             button.setOnMousePressed(event -> {
                 try {
-                    Figure figure = figureClass.newInstance();
+                    Figure figure = figureClass.getDeclaredConstructor().newInstance();
                     if (!drawMode) {
                         if (event.isShiftDown()) {
                             enterFigurePoints(figure);
@@ -167,12 +167,11 @@ public class DrawingController {
                             this.currentFigure = figure; // Устанавливаем текущую фигуру
                         }
                     }
-
+                    handleDrawing();
             } catch (Exception e) {
             System.out.println(e);
         }
             });
-            handleDrawing();
     }
 
     private void handleDrawing() {
