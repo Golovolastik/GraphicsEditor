@@ -45,14 +45,9 @@ public class PopupPanel implements Mover, Sizer {
         this.popup.getContent().add(this.panel);
 
     }
-
     public Popup getPopup() {
         return popup;
     }
-    public Pane getPane() {
-        return this.pane;
-    }
-
     public void showPopup(MouseEvent event) {
         init();
         this.polygon = this.figure.getPolygon();

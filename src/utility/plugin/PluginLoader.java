@@ -23,6 +23,7 @@ public class PluginLoader {
         addStarButton();
         addColorButton();
         addScaleButton();
+        addMirrorButton();
     }
     private Button createStarButton() throws Exception {
         Button star = new Button();
@@ -64,5 +65,11 @@ public class PluginLoader {
         Button scale = changer.createScaledButton();
         PopupPanel popup = PopupPanel.getInstance(this.pane);
         popup.addButton(scale);
+    }
+    private void addMirrorButton() {
+        Mirror mirror = new Mirror(this.pane);
+        Button mir = mirror.createMirrorButton();
+        PopupPanel popup = PopupPanel.getInstance(this.pane);
+        popup.addButton(mir);
     }
 }
