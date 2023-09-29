@@ -1,6 +1,7 @@
 package utility.plugin;
 
 import figures.Figure;
+import figures.Line;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -29,6 +30,10 @@ public class Scaler {
         scaleButton.setOnMouseClicked(e -> {
             PopupPanel popupPanel = PopupPanel.getInstance(this.pane);
             this.figure = popupPanel.getFigure();
+            if (this.figure instanceof Line) {
+                System.out.println("Not supported for line");
+                return;
+            }
             popupPanel.getPopup().hide();
             try {
                 if (!drawMode) {
