@@ -12,24 +12,25 @@ import utility.*;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // window initializing
         primaryStage.setTitle("Figures");
-
         Group root = new Group();
         Pane board = new Pane();
         board.setPrefSize(800, 600);
+        Scene scene = new Scene(root, 800, 600);
+        primaryStage.setScene(scene);
+        // utility objects
         FigureList figureList = FigureList.getInstance();
         Serializer serializer = new Serializer(board);
         Painter painter = Painter.getInstance(board);
         DrawingController controller = DrawingController.getInstance(board, painter);
+        // GUI elements
         VBox buttonPanel = controller.getButtonPanel();
         HBox openSavePanel = serializer.createButtonPanel();
         Button plugin = new PluginChooser().createChoosePluginButton(primaryStage, root, board);
-
+        // adding elements to scene
         root.getChildren().addAll(board, buttonPanel, plugin, openSavePanel);
-
-        Scene scene = new Scene(root, 800, 600);
-        primaryStage.setScene(scene);
-
+        // static initializing of loading scene
         Circle circle = new Circle(400, 300);
         circle.setRadius(150);
         figureList.addFigure(circle);
