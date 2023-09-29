@@ -25,6 +25,8 @@ public class Star extends Figure {
 
     @Override
     public void init() {
+        // calculating 5 points of a star
+        // then connect through one
         int numberOfPoints = 5;
         this.points.setNumber_of_points(numberOfPoints);
         double theta = 270;
@@ -45,31 +47,22 @@ public class Star extends Figure {
         figure.setStrokeWidth(2);
         this.setPolygon(figure);
     }
-
     public double getRadius() {
         return radius;
     }
     public void setRadius(double radius) {
         this.radius = radius;
     }
-
     @Override
     public Double[] getPoints() {
         return this.points.getPoints();
     }
-
-    @Override
-    public int getNumberOfPoints() {
-        return 360;
-    }
-
     @Override
     public HashMap<String, Double> getParameters() {
         HashMap<String, Double> params = new HashMap<>();
         params.put("radius", this.radius);
         return params;
     }
-
     @Override
     public void setParameters(HashMap<String, Double> params) {
         this.radius = params.get("radius");
