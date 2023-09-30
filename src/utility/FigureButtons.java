@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 
+// class that keeps figure buttons
 public class FigureButtons {
     private static FigureButtons instance;
     private ArrayList<Button> buttonArray = new ArrayList<>();
@@ -20,21 +21,10 @@ public class FigureButtons {
         }
         return instance;
     }
-
     public void addButton(Button button) {
         this.buttonArray.add(button);
     }
-
     public ArrayList<Button> getButtonArray() {
         return this.buttonArray;
     }
-    public void clear(){
-        this.buttonArray.clear();
-    }
-    public void printButtons(){
-        for(Button button: this.buttonArray) {
-            System.out.println(button.getGraphic());
-        }
-    }
-
 }

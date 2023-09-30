@@ -5,6 +5,7 @@ import figures.Figure;
 import java.util.ArrayList;
 import java.util.List;
 
+// singleton class to keeping all figures
 public class FigureList {
     private static volatile FigureList instance;
     private final List<Figure> figures = new ArrayList<>();
@@ -36,12 +37,5 @@ public class FigureList {
     }
     public void clear() {
         this.figures.clear();
-    }
-    public void printFigures() {
-        System.out.println("Start of List");
-        for (Figure figure: this.figures) {
-            System.out.println(figure);
-        }
-        System.out.println("End of List");
     }
 }

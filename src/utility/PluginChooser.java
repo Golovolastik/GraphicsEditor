@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import utility.plugin.PluginLoader;
 
+// adding plugin button
 public class PluginChooser {
     private Button chooseButton = new Button();
     private Pane pane;
@@ -33,6 +34,7 @@ public class PluginChooser {
         this.chooseButton.setTranslateX(690);
         this.chooseButton.setTranslateY(10);
     }
+    // load plugin features on click
     public void loadPluginButtonClicked() throws Exception {
         PluginLoader loader = new PluginLoader(this.root, this.pane);
         loader.loadPlugin();
