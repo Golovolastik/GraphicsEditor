@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
+// popup window with editing features
 public class PopupPanel implements Mover, Sizer {
     private static PopupPanel instance;
     private ArrayList<Button> buttons;
@@ -57,7 +58,6 @@ public class PopupPanel implements Mover, Sizer {
         this.popup.setX(this.event.getY());
         this.popup.show(this.pane, this.event.getScreenX(), this.event.getScreenY());
     }
-
     private void stdButtons() {
         ArrayList<Button> buttons = new ArrayList<>();
         Button close = new Button("Close");
@@ -72,29 +72,21 @@ public class PopupPanel implements Mover, Sizer {
         }
         this.buttons = buttons;
     }
-
-    private ArrayList<Button> getButtons() {
-        return this.buttons;
-    }
     public void addButton(Button button) {
         this.buttons.add(button);
     }
-
     public void getEvent(MouseEvent event) {
         this.event = event;
     }
-
     private Button moveButton() {
         Button move = new Button("Move");
         move.setOnAction(e -> {
             if (this.figure != null) {
-                //this.figure.setFill(Color.AQUA);
                 createMoveDialog();
             }
         });
         return move;
     }
-
     private Button resizeButton() {
         Button resize = new Button("Resize");
         resize.setOnAction(e -> {
@@ -117,7 +109,6 @@ public class PopupPanel implements Mover, Sizer {
             moveRelatively(dialogWindow);
             this.popup.hide();
         });
-
         Button absolute = new Button("Absolutely");
         absolute.setPrefSize(80, 50);
         absolute.setOnAction(e -> {
@@ -125,16 +116,13 @@ public class PopupPanel implements Mover, Sizer {
             moveAbsolutely(dialogWindow);
             this.popup.hide();
         });
-
         dialogButtons.getChildren().addAll(relative, absolute);
         dialog.getDialogPane().setContent(dialogButtons);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
         dialog.showAndWait();
 
         return dialog;
     }
-
     private Optional<Double[]> innerMoveDialog() {
         Dialog<Double[]> dialog = new Dialog<>();
         GridPane grid = new GridPane();
@@ -149,7 +137,6 @@ public class PopupPanel implements Mover, Sizer {
         grid.add(yField, 1, 0);
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        // Привязываем результат к кнопке "ОК"
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 return handleOkButtonClick(fields);
@@ -157,8 +144,6 @@ public class PopupPanel implements Mover, Sizer {
             return null;
         });
         return dialog.showAndWait();
-
-        //return dialog;
     }
 
     private Double[] handleOkButtonClick(ArrayList<TextField> fields) {
@@ -173,11 +158,10 @@ public class PopupPanel implements Mover, Sizer {
                 return new Double[]{startXValue, startYValue};
             }
         } catch (NumberFormatException e) {
-            showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
+            showErrorDialog("Entry error", "Enter correct values");
             return null;
         }
     }
-
     private void showErrorDialog(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -185,7 +169,6 @@ public class PopupPanel implements Mover, Sizer {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
     @Override
     public void moveAbsolutely(Optional<Double[]> parseResult) {
         if (!parseResult.isPresent()) {
@@ -217,7 +200,6 @@ public class PopupPanel implements Mover, Sizer {
         this.figure.setPolygon(this.polygon);
         this.pane.getChildren().add(this.figure.getPolygon());
     }
-
     public void toFront() {
         this.panel.toFront();
     }
@@ -225,7 +207,6 @@ public class PopupPanel implements Mover, Sizer {
     public void moveOnX(double distance) {
         this.figure.setX(this.figure.getX() + distance);
     }
-
     @Override
     public void moveOnY(double distance) {
         this.figure.setY(this.figure.getY() + distance);
@@ -286,11 +267,10 @@ public class PopupPanel implements Mover, Sizer {
                 }
             return  params;
         } catch (NumberFormatException e) {
-            showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
+            showErrorDialog("Entry error", "Enter correct coordinates");
             return null;
         }
     }
-
     public void setFigure(Figure figure) {
         this.figure = figure;
     }
