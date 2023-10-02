@@ -16,11 +16,11 @@ import java.util.Optional;
 // popup window with editing features
 public class PopupPanel implements Mover, Sizer {
     private static PopupPanel instance;
-    private ArrayList<Button> buttons;
+    private ArrayList<Button> buttons; // action buttons
     private Pane pane;
     private MouseEvent event;
     private Popup popup = new Popup();
-    private HBox panel = new HBox();
+    private HBox panel = new HBox(); // buttons container
     private Figure figure;
     private Polygon polygon;
 
@@ -49,15 +49,17 @@ public class PopupPanel implements Mover, Sizer {
     public Popup getPopup() {
         return popup;
     }
+    // show popup window at click position
     public void showPopup(MouseEvent event) {
         init();
         this.polygon = this.figure.getPolygon();
         getEvent(event);
-        this.panel.toFront();
+        this.panel.toFront(); // new figures appear at first layer and can block buttons
         this.popup.setX(this.event.getX());
         this.popup.setX(this.event.getY());
         this.popup.show(this.pane, this.event.getScreenX(), this.event.getScreenY());
     }
+    // init buttons list
     private void stdButtons() {
         ArrayList<Button> buttons = new ArrayList<>();
         Button close = new Button("Close");
@@ -78,6 +80,7 @@ public class PopupPanel implements Mover, Sizer {
     public void getEvent(MouseEvent event) {
         this.event = event;
     }
+    // change figure position
     private Button moveButton() {
         Button move = new Button("Move");
         move.setOnAction(e -> {
@@ -87,6 +90,7 @@ public class PopupPanel implements Mover, Sizer {
         });
         return move;
     }
+    // change figure parameters
     private Button resizeButton() {
         Button resize = new Button("Resize");
         resize.setOnAction(e -> {
@@ -96,11 +100,10 @@ public class PopupPanel implements Mover, Sizer {
         });
         return resize;
     }
-
+    // dialog window to handle move actions
     private Dialog<Double[]> createMoveDialog() {
         Dialog<Double[]> dialog = new Dialog<>();
         dialog.setTitle("How to move?");
-
         HBox dialogButtons = new HBox();
         Button relative = new Button("Relatively");
         relative.setPrefSize(80, 50);
@@ -123,6 +126,7 @@ public class PopupPanel implements Mover, Sizer {
 
         return dialog;
     }
+    // create another dialog window and read distance values
     private Optional<Double[]> innerMoveDialog() {
         Dialog<Double[]> dialog = new Dialog<>();
         GridPane grid = new GridPane();
@@ -145,7 +149,7 @@ public class PopupPanel implements Mover, Sizer {
         });
         return dialog.showAndWait();
     }
-
+    // handle values - show error dialog on wrong values or save on valid
     private Double[] handleOkButtonClick(ArrayList<TextField> fields) {
         try {
             double startXValue = Double.parseDouble(fields.get(0).getText());
@@ -169,6 +173,8 @@ public class PopupPanel implements Mover, Sizer {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    // change figure position absolutely -
+    // enter new coordinates and place figure
     @Override
     public void moveAbsolutely(Optional<Double[]> parseResult) {
         if (!parseResult.isPresent()) {
@@ -184,7 +190,7 @@ public class PopupPanel implements Mover, Sizer {
         this.figure.setPolygon(this.polygon);
         this.pane.getChildren().add(this.figure.getPolygon());
     }
-
+    // change figure position from current place
     @Override
     public void moveRelatively(Optional<Double[]> parseResult) {
         if (!parseResult.isPresent()) {
@@ -211,11 +217,13 @@ public class PopupPanel implements Mover, Sizer {
     public void moveOnY(double distance) {
         this.figure.setY(this.figure.getY() + distance);
     }
+    // change figure size
     @Override
     public void changeParameters() {
         HashMap<String, Double> params = this.figure.getParameters();
         createResizeDialog(params);
     }
+    // create dialog window with parameters and apply new values
     private void createResizeDialog(HashMap<String, Double> params) {
         Dialog<Double[]> dialog = new Dialog<>();
         dialog.setTitle("Resize");
