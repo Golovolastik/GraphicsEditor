@@ -7,33 +7,30 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import utility.FigureList;
-import utility.Painter;
-import utility.PluginChooser;
-import utility.Serializer;
+import utility.*;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // window initializing
         primaryStage.setTitle("Figures");
-
         Group root = new Group();
         Pane board = new Pane();
         board.setPrefSize(800, 600);
+        Scene scene = new Scene(root, 800, 600);
+        primaryStage.setScene(scene);
+        // utility objects
         FigureList figureList = FigureList.getInstance();
         Serializer serializer = new Serializer(board);
         Painter painter = Painter.getInstance(board);
-        DrawingController controller = new DrawingController(board, painter);
-        VBox buttonPanel = controller.createButtonPanel();
+        DrawingController controller = DrawingController.getInstance(board, painter);
+        // GUI elements
+        VBox buttonPanel = controller.getButtonPanel();
         HBox openSavePanel = serializer.createButtonPanel();
-        Button plugin = new PluginChooser().createChoosePluginButton(primaryStage);
-
+        Button plugin = new PluginChooser().createChoosePluginButton(primaryStage, root, board);
+        // adding elements to scene
         root.getChildren().addAll(board, buttonPanel, plugin, openSavePanel);
-
-        Scene scene = new Scene(root, 800, 600);
-        primaryStage.setScene(scene);
-
-
+        // static initializing of loading scene
         Circle circle = new Circle(400, 300);
         circle.setRadius(150);
         figureList.addFigure(circle);
@@ -41,7 +38,6 @@ public class Main extends Application {
         figureList.addFigure(new Rectangle(350, 450));
         figureList.addFigure(new Parallelogram(150, 350));
         figureList.addFigure(new Line(150, 250, 400, 50));
-        //figureList.addFigure(new Star(250, 250));
 
         painter.drawAll();
         primaryStage.show();

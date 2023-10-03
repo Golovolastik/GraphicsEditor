@@ -7,19 +7,19 @@ public class PointsSet {
     private double[] xAxis;
     private double[] yAxis;
     private int number_of_points;
-    private Polygon figure;
+    private Polygon figure = new Polygon();
 
     public void initPoints(){
-        //Double[] points = new Double[this.number_of_points * 2];
+        // javafx polygon takes one array to initializing
+        // array = [x1, y1, x2, y2, ..., xn, yn]
+        // merging x and y array
         if (xAxis.length != yAxis.length) {
             throw new IllegalArgumentException("Different length of arrays");
         }
-
-        Double[] combinedArray = new Double[xAxis.length * 2]; // Создаем новый массив, в два раза длиннее исходных
-
+        Double[] combinedArray = new Double[xAxis.length * 2];
         for (int i = 0; i < xAxis.length; i++) {
-            combinedArray[i * 2] = xAxis[i]; // Первая половина массива содержит x
-            combinedArray[i * 2 + 1] = yAxis[i]; // Вторая половина массива содержит y
+            combinedArray[i * 2] = xAxis[i];
+            combinedArray[i * 2 + 1] = yAxis[i];
         }
         this.points = combinedArray;
     }
@@ -33,24 +33,20 @@ public class PointsSet {
         return this.points;
     }
     public double[] getX_axis() {
-        return xAxis;
+        return this.xAxis;
     }
-
     public void setX_axis(double[] x_axis) {
         this.xAxis = x_axis;
     }
-
     public double[] getY_axis() {
-        return yAxis;
+        return this.yAxis;
     }
-
     public void setY_axis(double[] y_axis) {
         this.yAxis = y_axis;
     }
     public int getNumber_of_points() {
         return number_of_points;
     }
-
     public void setNumber_of_points(int number_of_points) {
         this.number_of_points = number_of_points;
     }

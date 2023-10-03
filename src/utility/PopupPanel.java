@@ -13,38 +13,53 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
+// popup window with editing features
 public class PopupPanel implements Mover, Sizer {
-    private ArrayList<Button> buttons;
+    private static PopupPanel instance;
+    private ArrayList<Button> buttons; // action buttons
     private Pane pane;
     private MouseEvent event;
     private Popup popup = new Popup();
-    private HBox panel = new HBox();
+    private HBox panel = new HBox(); // buttons container
     private Figure figure;
     private Polygon polygon;
 
-
-    public PopupPanel(Pane pane){
+    private PopupPanel(Pane pane) {
         this.pane = pane;
+        stdButtons();
         init();
-
+    }
+    public static PopupPanel getInstance(Pane pane) {
+        if (instance == null) {
+            synchronized (PopupPanel.class) {
+                if (instance == null) {
+                    instance = new PopupPanel(pane);
+                }
+            }
+        }
+        return instance;
     }
     private void init(){
-        stdButtons();
+        this.popup.getContent().remove(this.panel);
+        this.panel.getChildren().clear();
         this.panel.getChildren().addAll(this.buttons);
         this.popup.getContent().add(this.panel);
 
     }
-
-    public void showPopup(MouseEvent event, Figure figure) {
-        this.figure = figure;
+    public Popup getPopup() {
+        return popup;
+    }
+    // show popup window at click position
+    public void showPopup(MouseEvent event) {
+        init();
         this.polygon = this.figure.getPolygon();
         getEvent(event);
-        this.panel.toFront();
+        this.panel.toFront(); // new figures appear at first layer and can block buttons
         this.popup.setX(this.event.getX());
         this.popup.setX(this.event.getY());
         this.popup.show(this.pane, this.event.getScreenX(), this.event.getScreenY());
     }
-
+    // init buttons list
     private void stdButtons() {
         ArrayList<Button> buttons = new ArrayList<>();
         Button close = new Button("Close");
@@ -54,46 +69,41 @@ public class PopupPanel implements Mover, Sizer {
         buttons.add(close);
         buttons.add(resizeButton());
         buttons.add(moveButton());
+        for (Button b: buttons) {
+            b.setPrefSize(60, 30);
+        }
         this.buttons = buttons;
     }
-
-    private ArrayList<Button> getButtons() {
-        return this.buttons;
-    }
     public void addButton(Button button) {
-
+        this.buttons.add(button);
     }
-
     public void getEvent(MouseEvent event) {
         this.event = event;
     }
-
+    // change figure position
     private Button moveButton() {
         Button move = new Button("Move");
         move.setOnAction(e -> {
             if (this.figure != null) {
-                //this.figure.setFill(Color.AQUA);
                 createMoveDialog();
             }
         });
         return move;
     }
-
+    // change figure parameters
     private Button resizeButton() {
         Button resize = new Button("Resize");
         resize.setOnAction(e -> {
             if (this.figure != null) {
-                //this.figure.setFill(Color.AQUA);
                 changeParameters();
             }
         });
         return resize;
     }
-
+    // dialog window to handle move actions
     private Dialog<Double[]> createMoveDialog() {
         Dialog<Double[]> dialog = new Dialog<>();
         dialog.setTitle("How to move?");
-
         HBox dialogButtons = new HBox();
         Button relative = new Button("Relatively");
         relative.setPrefSize(80, 50);
@@ -102,7 +112,6 @@ public class PopupPanel implements Mover, Sizer {
             moveRelatively(dialogWindow);
             this.popup.hide();
         });
-
         Button absolute = new Button("Absolutely");
         absolute.setPrefSize(80, 50);
         absolute.setOnAction(e -> {
@@ -110,16 +119,14 @@ public class PopupPanel implements Mover, Sizer {
             moveAbsolutely(dialogWindow);
             this.popup.hide();
         });
-
         dialogButtons.getChildren().addAll(relative, absolute);
         dialog.getDialogPane().setContent(dialogButtons);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
         dialog.showAndWait();
 
         return dialog;
     }
-
+    // create another dialog window and read distance values
     private Optional<Double[]> innerMoveDialog() {
         Dialog<Double[]> dialog = new Dialog<>();
         GridPane grid = new GridPane();
@@ -134,7 +141,6 @@ public class PopupPanel implements Mover, Sizer {
         grid.add(yField, 1, 0);
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        // Привязываем результат к кнопке "ОК"
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 return handleOkButtonClick(fields);
@@ -142,10 +148,8 @@ public class PopupPanel implements Mover, Sizer {
             return null;
         });
         return dialog.showAndWait();
-
-        //return dialog;
     }
-
+    // handle values - show error dialog on wrong values or save on valid
     private Double[] handleOkButtonClick(ArrayList<TextField> fields) {
         try {
             double startXValue = Double.parseDouble(fields.get(0).getText());
@@ -158,11 +162,10 @@ public class PopupPanel implements Mover, Sizer {
                 return new Double[]{startXValue, startYValue};
             }
         } catch (NumberFormatException e) {
-            showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
+            showErrorDialog("Entry error", "Enter correct values");
             return null;
         }
     }
-
     private void showErrorDialog(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -170,7 +173,8 @@ public class PopupPanel implements Mover, Sizer {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
+    // change figure position absolutely -
+    // enter new coordinates and place figure
     @Override
     public void moveAbsolutely(Optional<Double[]> parseResult) {
         if (!parseResult.isPresent()) {
@@ -186,7 +190,7 @@ public class PopupPanel implements Mover, Sizer {
         this.figure.setPolygon(this.polygon);
         this.pane.getChildren().add(this.figure.getPolygon());
     }
-
+    // change figure position from current place
     @Override
     public void moveRelatively(Optional<Double[]> parseResult) {
         if (!parseResult.isPresent()) {
@@ -202,7 +206,6 @@ public class PopupPanel implements Mover, Sizer {
         this.figure.setPolygon(this.polygon);
         this.pane.getChildren().add(this.figure.getPolygon());
     }
-
     public void toFront() {
         this.panel.toFront();
     }
@@ -210,21 +213,17 @@ public class PopupPanel implements Mover, Sizer {
     public void moveOnX(double distance) {
         this.figure.setX(this.figure.getX() + distance);
     }
-
     @Override
     public void moveOnY(double distance) {
         this.figure.setY(this.figure.getY() + distance);
     }
-
-    public Figure getFigure() {
-        return this.figure;
-    }
-
+    // change figure size
     @Override
     public void changeParameters() {
         HashMap<String, Double> params = this.figure.getParameters();
         createResizeDialog(params);
     }
+    // create dialog window with parameters and apply new values
     private void createResizeDialog(HashMap<String, Double> params) {
         Dialog<Double[]> dialog = new Dialog<>();
         dialog.setTitle("Resize");
@@ -276,9 +275,15 @@ public class PopupPanel implements Mover, Sizer {
                 }
             return  params;
         } catch (NumberFormatException e) {
-            showErrorDialog("Ошибка ввода", "Введите корректные числа для X и Y.");
+            showErrorDialog("Entry error", "Enter correct coordinates");
             return null;
         }
+    }
+    public void setFigure(Figure figure) {
+        this.figure = figure;
+    }
+    public Figure getFigure() {
+        return this.figure;
     }
 
 }

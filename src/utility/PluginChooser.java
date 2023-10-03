@@ -1,101 +1,79 @@
 package utility;
 
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+// adding plugin button
 public class PluginChooser {
     private Button chooseButton = new Button();
+    private Pane pane;
+    private Group root;
 
-    public Button createChoosePluginButton(Stage stage) {
+    public Button createChoosePluginButton(Stage stage, Group root, Pane pane) {
         initParemeters();
-        this.chooseButton.setOnAction(e -> loadPluginButtonClicked());
-//        this.chooseButton.setOnAction(e -> {
-//            try {
-//                fromStackOverFlow();
-//            } catch (Exception ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        });
-
+        this.pane = pane;
+        this.root = root;
+        this.chooseButton.setOnAction(e -> {
+            try {
+                loadPluginButtonClicked();
+                this.root.getChildren().remove(this.chooseButton);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         return this.chooseButton;
     }
-
+    // button parameters
     private void initParemeters() {
         this.chooseButton.setText("Load plugin");
         this.chooseButton.setPrefSize(100, 50);
         this.chooseButton.setTranslateX(690);
         this.chooseButton.setTranslateY(10);
     }
+    // load plugin features on click
     public void loadPluginButtonClicked() {
-//        String currentDirectory = System.getProperty("user.dir");
-//        System.out.println(currentDirectory);
-        try {
-            // Получить текущий рабочий каталог
-            String currentDirectory = System.getProperty("user.dir");
-
-            // Создать URL для каталога с плагином (папка plugin)
-            File utilityDirectory = new File(currentDirectory, "utility");
-            File pluginDirectory = new File(utilityDirectory, "plugin");
-            System.out.println(pluginDirectory);
-
-            URLClassLoader classLoader = new URLClassLoader(new URL[]{pluginDirectory.toURI().toURL()});
-
-            System.out.println(classLoader);
-
-            // Загрузить класс Star из директории plugin
-            Class<?> starClass = classLoader.loadClass("Star");
-
-            System.out.println(starClass);
-
-            // Создать экземпляр класса Star
-            Object starInstance = starClass.getDeclaredConstructor().newInstance();
-
-//            // Вызвать методы рисования и изменения размера
-            Method drawMethod = starClass.getDeclaredMethod("hello");
-            drawMethod.invoke(starInstance);
-//
-//            Method resizeMethod = starClass.getDeclaredMethod("resize", int.class);
-//            resizeMethod.invoke(starInstance, 50);
-
-            // Закрыть класслоадер
-            classLoader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        File pluginFolder = new File("src/utility/plugin");
+        if (pluginFolder.exists() && pluginFolder.isDirectory()) {
+            File[] files = pluginFolder.listFiles();
+            if (files != null) {
+                try {
+                    URL[] urls = new URL[files.length];
+                    for (int i = 0; i < files.length; i++) {
+                        urls[i] = files[i].toURI().toURL();
+                    }
+                    // upload plugin classes
+                    URLClassLoader classLoader = URLClassLoader.newInstance(urls);
+                    // upload main class - RealPlugin
+                    Class<?> mainClass = classLoader.loadClass("utility.plugin.RealPlugin");
+                    // class constructor
+                    Constructor<?> constructor = mainClass.getConstructor(Group.class, Pane.class);
+                    // pane and group objects
+                    Group root = this.root;
+                    Pane pane = this.pane;
+                    // plugin class instance
+                    Object realPluginInstance = constructor.newInstance(root, pane);
+                    // get loadPlugin method
+                    Method loadPlugin= mainClass.getMethod("loadPlugin");
+                    // run method
+                    loadPlugin.invoke(realPluginInstance);
+                } catch (Exception e) {
+                    // no plugin exception
+                    System.out.println("No plugin");
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            // can't find plugin folder
+            System.out.println("No plugin directory");
         }
-    }
-
-    public void fromStackOverFlow() throws Exception {
-        // Путь к JAR-файлу, который нужно загрузить
-        String jarFilePath = "/Users/aleksejankovic/Desktop/Study/bsuir/3курс/1сем/ООП/ipr1/GraphicsEditor/src/utility/plugin/JarExample.jar";
-
-        // Преобразование пути к JAR-файлу в формат URL
-        URL jarUrl = new URL("file:" + jarFilePath);
-
-        // Создаем новый URLClassLoader с JAR-файлом
-        URLClassLoader classLoader = new URLClassLoader(new URL[]{jarUrl});
-        // Имя класса, который вы хотите загрузить и вызвать
-        String className = "Ololo"; // Замените на имя вашего класса
-
-        // Загрузка класса из JAR-файла
-        Class<?> loadedClass = classLoader.loadClass(className);
-
-        // Создание экземпляра класса (предполагается, что у класса есть конструктор по умолчанию)
-        Object instance = loadedClass.newInstance();
-
-        // Вызов метода из загруженного класса
-        Method method = loadedClass.getMethod("hello"); // Замените на имя метода
-        Object result = method.invoke(instance);
-
-        // Вывод результата
-        System.out.println("Результат выполнения метода: " + result);
-
-        // Закрываем класслоадер после использования
-        classLoader.close();
     }
 }
 

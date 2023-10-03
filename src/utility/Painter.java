@@ -3,22 +3,19 @@ package utility;
 import figures.Figure;
 import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
-
+// class that initialize figure and show it on screen
 public class Painter {
-    private static volatile Painter instance;
+    private static Painter instance;
     private final Pane pane;
-    private double lineWidth = 2;
-    private Color borderColor = Color.BLACK;
     private final PopupPanel popupPanel;
     private Polygon polygon;
     private final FigureList figureList;
 
     private Painter(Pane pane){
         this.pane = pane;
-        this.popupPanel = new PopupPanel(this.pane);
+        this.popupPanel = PopupPanel.getInstance(this.pane);
         this.figureList = FigureList.getInstance();
     }
     public static Painter getInstance(Pane pane) {
@@ -31,58 +28,39 @@ public class Painter {
         }
         return instance;
     }
-    public Pane getPane() {
-        return this.pane;
-    }
-
-    public FigureList getFigureList() {
-        return this.figureList;
-    }
+    // draw figure and add it to list
     public void draw(Figure figure) {
         figure.init();
-        this.polygon = figure.getPolygon();
-        this.polygon = initParameters(figure);
-        figure.setPolygon(this.polygon);
+        initParameters(figure);
         this.pane.getChildren().add(figure.getPolygon());
         this.figureList.addFigure(figure);
     }
-
+    // draw all figures from list
     public void drawAll() {
         for (Figure figure: this.figureList.getFigures()) {
             this.draw(figure);
         }
     }
-
-    private Polygon initParameters(Figure figure){
-        this.polygon = new Polygon();
-        this.polygon.getPoints().addAll(figure.getPoints());
-        this.polygon.setFill(Color.rgb(255, 255, 255, 0));
-        this.polygon.setStroke(Color.BLACK);
-        this.polygon.setStrokeWidth(this.lineWidth);
+    // actions with figures on scene
+    private void initParameters(Figure figure){
+        this.polygon = figure.getPolygon();
         this.polygon.setOnMouseClicked(e -> {
+            this.polygon = figure.getPolygon();
+            // drawing mode
             if (this.pane.getCursor() == Cursor.CROSSHAIR ) {
                 return;
             }
+            // delete figure
             if (e.isShiftDown()) {
                 this.polygon = figure.getPolygon();
                 this.pane.getChildren().remove(this.polygon);
                 this.figureList.remove(figure);
                 return;
             }
-            this.polygon = figure.getPolygon();
-            figure.setPolygon(this.polygon);
-            this.popupPanel.showPopup(e, figure);
+            // show popup window on click
+            this.popupPanel.setFigure(figure);
+            this.popupPanel.showPopup(e);
             this.popupPanel.toFront();
         });
-
-        return this.polygon;
-    }
-
-    public void setLineWidth(double lineWidth) {
-        this.lineWidth = lineWidth;
-    }
-
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
     }
 }
