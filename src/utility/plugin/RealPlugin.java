@@ -6,16 +6,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import utility.DrawingController;
-import utility.FigureButtons;
-import utility.Painter;
-import utility.PopupPanel;
+import utility.*;
 
 
-public class PluginLoader {
+public class RealPlugin {
     private Group root;
     private Pane pane;
-    public PluginLoader(Group root, Pane pane){
+    public RealPlugin(Group root, Pane pane){
         this.root = root;
         this.pane = pane;
     }
