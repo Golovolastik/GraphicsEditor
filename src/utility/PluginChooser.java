@@ -29,10 +29,9 @@ public class PluginChooser {
                 throw new RuntimeException(ex);
             }
         });
-
         return this.chooseButton;
     }
-
+    // button parameters
     private void initParemeters() {
         this.chooseButton.setText("Load plugin");
         this.chooseButton.setPrefSize(100, 50);
@@ -40,55 +39,41 @@ public class PluginChooser {
         this.chooseButton.setTranslateY(10);
     }
     // load plugin features on click
-//    public void loadPluginButtonClicked() throws Exception {
-//        RealPlugin loader = new RealPlugin(this.root, this.pane);
-//        loader.loadPlugin();
-//    }
     public void loadPluginButtonClicked() {
         File pluginFolder = new File("src/utility/plugin");
-
         if (pluginFolder.exists() && pluginFolder.isDirectory()) {
             File[] files = pluginFolder.listFiles();
-
             if (files != null) {
                 try {
                     URL[] urls = new URL[files.length];
                     for (int i = 0; i < files.length; i++) {
                         urls[i] = files[i].toURI().toURL();
                     }
-
-                    // Загрузка всех классов из папки "plugin"
+                    // upload plugin classes
                     URLClassLoader classLoader = URLClassLoader.newInstance(urls);
-
-                    // Загрузка основного класса
-                    Class<?> mainClass = classLoader.loadClass("utility.plugin.RealPlugin"); // Замените "Main" на имя вашего основного класса
-                    //Object mainInstance = mainClass.getDeclaredConstructor().newInstance();
-                    // Получение конструктора класса с параметрами Group и Pane
+                    // upload main class - RealPlugin
+                    Class<?> mainClass = classLoader.loadClass("utility.plugin.RealPlugin");
+                    // class constructor
                     Constructor<?> constructor = mainClass.getConstructor(Group.class, Pane.class);
-
-                    // Создание объектов Group и Pane
+                    // pane and group objects
                     Group root = this.root;
                     Pane pane = this.pane;
-
-                    // Создание экземпляра класса RealPlugin с использованием конструктора и передача параметров
+                    // plugin class instance
                     Object realPluginInstance = constructor.newInstance(root, pane);
-                    // Получение метода "doSomething" с помощью рефлексии
+                    // get loadPlugin method
                     Method loadPlugin= mainClass.getMethod("loadPlugin");
-
-                    // Вызов метода на экземпляре основного класса
+                    // run method
                     loadPlugin.invoke(realPluginInstance);
-
-
-                    // Вызов методов или операций внутри основного класса
                 } catch (Exception e) {
+                    // no plugin exception
+                    System.out.println("No plugin");
                     e.printStackTrace();
-                    // Обработка ошибок при загрузке и инициализации основного класса
                 }
             }
         } else {
-            System.out.println("Папка 'plugin' не найдена.");
+            // can't find plugin folder
+            System.out.println("No plugin directory");
         }
-
     }
 }
 
