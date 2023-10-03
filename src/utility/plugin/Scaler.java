@@ -14,6 +14,9 @@ import utility.PopupPanel;
 import java.util.HashMap;
 import java.util.Map;
 
+// choose figure than click on new place,
+// enter new size in percents and
+// place new figure with the size depending on parent figure
 public class Scaler {
     private Pane pane;
     private Painter painter;
@@ -24,6 +27,7 @@ public class Scaler {
         this.pane = pane;
         this.painter = Painter.getInstance(this.pane);
     }
+    // add button to panel and set action
     public Button createScaledButton() {
         Button scaleButton = new Button("Scale");
         scaleButton.setPrefSize(60, 30);
@@ -49,7 +53,7 @@ public class Scaler {
 
         return scaleButton;
     }
-
+    // choosing the place of a new figure
     private void handleDrawing() {
         this.pane.setCursor(Cursor.CROSSHAIR);
         this.pane.setOnMousePressed(event -> {
@@ -60,18 +64,16 @@ public class Scaler {
               HashMap<String, Double> params = this.figure.getParameters();
               for (Map.Entry<String, Double> param: params.entrySet()) {
                   params.put(param.getKey(), param.getValue()*scale);
-
               }
               this.currentFigure.setParameters(params);
               this.painter.draw(currentFigure);
-              //this.figure = this.currentFigure;
               this.pane.setCursor(Cursor.DEFAULT);
               drawMode = false;
               currentFigure = null;
             }
         });
     }
-
+    // dialog window where user enters new size
     private double showDialog() {
         Dialog dialog = new Dialog();
         dialog.setHeaderText("Enter new size in %");
@@ -85,7 +87,6 @@ public class Scaler {
             }
             return null;
                 });
-
         dialog.showAndWait();
         return result[0];
     }
